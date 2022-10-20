@@ -16,7 +16,7 @@ clean:
 	rm -rf report
 	rm coverage.info
 
-check: check-format check-sanitizer check-valgrind clean
+check: check-sanitizer check-valgrind clean
 
 check-sanitizer:
 	echo "Run with sanitizer"

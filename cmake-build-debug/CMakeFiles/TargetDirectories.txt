@@ -1,0 +1,9 @@
+/home/maks/Desktop/questina/cpp_hw/toys_catalog/cmake-build-debug/CMakeFiles/toys_catalog.dir
+/home/maks/Desktop/questina/cpp_hw/toys_catalog/cmake-build-debug/CMakeFiles/edit_cache.dir
+/home/maks/Desktop/questina/cpp_hw/toys_catalog/cmake-build-debug/CMakeFiles/rebuild_cache.dir
+/home/maks/Desktop/questina/cpp_hw/toys_catalog/cmake-build-debug/toys_lib/CMakeFiles/toys_lib.dir
+/home/maks/Desktop/questina/cpp_hw/toys_catalog/cmake-build-debug/toys_lib/CMakeFiles/edit_cache.dir
+/home/maks/Desktop/questina/cpp_hw/toys_catalog/cmake-build-debug/toys_lib/CMakeFiles/rebuild_cache.dir
+/home/maks/Desktop/questina/cpp_hw/toys_catalog/cmake-build-debug/tests/CMakeFiles/test_toys_store.dir
+/home/maks/Desktop/questina/cpp_hw/toys_catalog/cmake-build-debug/tests/CMakeFiles/edit_cache.dir
+/home/maks/Desktop/questina/cpp_hw/toys_catalog/cmake-build-debug/tests/CMakeFiles/rebuild_cache.dir

@@ -1,0 +1,18 @@
+#include <gtest/gtest.h>
+
+extern "C" {
+#include "toys.h"
+}
+
+TEST(TOYS_CATALOG, TEST_ADD_TOY){
+    struct toy_array toy_store = {0, nullptr};
+    int add_toy_res = add_toy(&toy_store, (char *)"TeddyBear", 10000.9999999,
+            (char *)"Russia", 1000000);
+    EXPECT_EQ(add_toy_res, 0);
+    EXPECT_EQ(toy_store.toys[0].name, "TeddyBear");
+    EXPECT_FLOAT_EQ(toy_store.toys[0].price, 10000.9999999);
+    EXPECT_EQ(toy_store.toys[0].country, "Russia");
+    EXPECT_EQ(toy_store.toys[0].amount, 1000000);
+    add_toy_res = add_toy(nullptr, (char *)"Toy", 11, "USA", 1000);
+    EXPECT_EQ(add_toy_res, -1);
+}

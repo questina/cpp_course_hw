@@ -1,0 +1,6 @@
+/home/maks/Desktop/questina/cpp_hw/clion-2022.2.4/bin/cmake/linux/bin/cmake -DCMAKE_BUILD_TYPE=Debug -DCMAKE_MAKE_PROGRAM=/home/maks/Desktop/questina/cpp_hw/clion-2022.2.4/bin/ninja/linux/ninja -G Ninja -S /home/maks/Desktop/questina/cpp_hw/toys_catalog -B /home/maks/Desktop/questina/cpp_hw/toys_catalog/cmake-build-debug
+TOYS_LIB_INCLUDE_DIRS = /home/maks/Desktop/questina/cpp_hw/toys_catalog/toys_lib
+TOYS_LIB_LIBRARIES = toys_lib
+-- Configuring done
+-- Generating done
+-- Build files have been written to: /home/maks/Desktop/questina/cpp_hw/toys_catalog/cmake-build-debug

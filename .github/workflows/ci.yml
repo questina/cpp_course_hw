@@ -3,7 +3,9 @@ on: push
 jobs:
   check:
     runs-on: ubuntu-latest
-    container: "Dockerfile"
+    runs:
+      using: 'docker'
+      image: 'Dockerfile'
     steps:
       - uses: actions/checkout@v2
       - run: make check

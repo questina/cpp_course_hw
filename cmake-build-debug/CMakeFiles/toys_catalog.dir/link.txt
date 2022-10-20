@@ -1,1 +1,0 @@
-/usr/bin/cc  -Wpedantic -Wall -Wextra -Werror -g   -coverage -lgcov CMakeFiles/toys_catalog.dir/main.c.o  -o toys_catalog  toys_lib/libtoys_lib.a 

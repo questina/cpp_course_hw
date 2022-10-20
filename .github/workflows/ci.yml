@@ -1,28 +1,15 @@
 on: push
 
 jobs:
-  build:
-
-    runs-on: ubuntu-latest
-
-    steps:
-      - uses: actions/checkout@v3
-      - name: Build the Docker image
-        run: docker build . --file Dockerfile --tag questina_image
-
   check:
     runs-on: ubuntu-latest
-    container: questina_image
+    container: leshiy1295/gcc_linters_valgrind_cmake_gtest
     steps:
       - uses: actions/checkout@v2
-      - name: Build docker images
-        run: docker build -t local < Dockerfile
-      - name: Run tests
-        run: docker run -it -v $PWD:/srv -w/srv local make check
-
-  build_program:
+      - run: make check
+  build:
     runs-on: ubuntu-latest
-    container: "Dockerfile"
+    container: leshiy1295/gcc_linters_valgrind_cmake_gtest
     needs: [check]
     steps:
       - uses: actions/checkout@v2
@@ -33,7 +20,7 @@ jobs:
           path: main.out
   test:
     runs-on: ubuntu-latest
-    container: leshiy1295/gcc_linters
+    container: leshiy1295/gcc_linters_valgrind_cmake_gtest
     needs: [build]
     steps:
       - uses: actions/checkout@v2

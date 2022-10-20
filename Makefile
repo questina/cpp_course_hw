@@ -2,7 +2,7 @@ check:
 	echo "Implement check"
 
 build:
-	ehco "Typo"
+	echo "Building"
 
 test:
 	echo "Testing"

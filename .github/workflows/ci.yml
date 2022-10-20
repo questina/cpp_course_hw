@@ -3,13 +3,13 @@ on: push
 jobs:
   check:
     runs-on: ubuntu-latest
-    container: leshiy1295/gcc_linters
+    container: "Dockerfile"
     steps:
       - uses: actions/checkout@v2
       - run: make check
   build:
     runs-on: ubuntu-latest
-    container: leshiy1295/gcc_linters
+    container: "Dockerfile"
     needs: [check]
     steps:
       - uses: actions/checkout@v2

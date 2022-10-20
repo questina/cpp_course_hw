@@ -3,16 +3,16 @@ on: push
 jobs:
   check:
     runs-on: ubuntu-latest
-    container: "Dockerfile"
+    container: "dockerfile"
     steps:
       - uses: actions/checkout@v2
       - name: Build docker images
-        run: docker build -t local < Dockerfile
+        run: docker build -t local < dockerfile
       - name: Run tests
         run: docker run -it -v $PWD:/srv -w/srv local make check
   build:
     runs-on: ubuntu-latest
-    container: "Dockerfile"
+    container: "dockerfile"
     needs: [check]
     steps:
       - uses: actions/checkout@v2

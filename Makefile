@@ -14,7 +14,7 @@ run: ${TARGET}
 clean:
 	rm -rf cmake-build-debug
 	rm -rf report
-	rm coverage.info
+	rm -f coverage.info
 
 check: check-sanitizer check-valgrind clean
 

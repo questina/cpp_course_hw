@@ -46,5 +46,6 @@ test-with-coverage:
 	cmake -DCMAKE_BUILD_TYPE=Debug -S ./ -B ./cmake-build-debug
 	cmake --build ./cmake-build-debug --target test_toys_store
 	./cmake-build-debug/tests/test_toys_store
+	pip install lcov
 	lcov -t "tests/tests" -o coverage.info -c -d ./cmake-build-debug/toys_lib/
 	genhtml -o report coverage.info

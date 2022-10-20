@@ -1,0 +1,62 @@
+Performing C SOURCE FILE Test CMAKE_HAVE_LIBC_PTHREAD failed with the following output:
+Change Dir: /home/maks/Desktop/questina/cpp_hw/toys_catalog/cmake-build-debug/CMakeFiles/CMakeTmp
+
+Run Build Command(s):/usr/bin/make cmTC_1ee41/fast && make[1]: Entering directory '/home/maks/Desktop/questina/cpp_hw/toys_catalog/cmake-build-debug/CMakeFiles/CMakeTmp'
+/usr/bin/make -f CMakeFiles/cmTC_1ee41.dir/build.make CMakeFiles/cmTC_1ee41.dir/build
+make[2]: Entering directory '/home/maks/Desktop/questina/cpp_hw/toys_catalog/cmake-build-debug/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_1ee41.dir/src.c.o
+/usr/bin/cc   -Wpedantic -Wall -Wextra -Werror -DCMAKE_HAVE_LIBC_PTHREAD   -o CMakeFiles/cmTC_1ee41.dir/src.c.o   -c /home/maks/Desktop/questina/cpp_hw/toys_catalog/cmake-build-debug/CMakeFiles/CMakeTmp/src.c
+Linking C executable cmTC_1ee41
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_1ee41.dir/link.txt --verbose=1
+/usr/bin/cc  -Wpedantic -Wall -Wextra -Werror -DCMAKE_HAVE_LIBC_PTHREAD   -coverage -lgcov -coverage -lgcov  CMakeFiles/cmTC_1ee41.dir/src.c.o  -o cmTC_1ee41 
+/usr/bin/ld: CMakeFiles/cmTC_1ee41.dir/src.c.o: in function `main':
+src.c:(.text+0x46): undefined reference to `pthread_create'
+/usr/bin/ld: src.c:(.text+0x52): undefined reference to `pthread_detach'
+/usr/bin/ld: src.c:(.text+0x63): undefined reference to `pthread_join'
+collect2: error: ld returned 1 exit status
+make[2]: *** [CMakeFiles/cmTC_1ee41.dir/build.make:87: cmTC_1ee41] Error 1
+make[2]: Leaving directory '/home/maks/Desktop/questina/cpp_hw/toys_catalog/cmake-build-debug/CMakeFiles/CMakeTmp'
+make[1]: *** [Makefile:121: cmTC_1ee41/fast] Error 2
+make[1]: Leaving directory '/home/maks/Desktop/questina/cpp_hw/toys_catalog/cmake-build-debug/CMakeFiles/CMakeTmp'
+
+
+Source file was:
+#include <pthread.h>
+
+void* test_func(void* data)
+{
+  return data;
+}
+
+int main(void)
+{
+  pthread_t thread;
+  pthread_create(&thread, NULL, test_func, NULL);
+  pthread_detach(thread);
+  pthread_join(thread, NULL);
+  pthread_atfork(NULL, NULL, NULL);
+  pthread_exit(NULL);
+
+  return 0;
+}
+
+Determining if the function pthread_create exists in the pthreads failed with the following output:
+Change Dir: /home/maks/Desktop/questina/cpp_hw/toys_catalog/cmake-build-debug/CMakeFiles/CMakeTmp
+
+Run Build Command(s):/usr/bin/make cmTC_0c190/fast && make[1]: Entering directory '/home/maks/Desktop/questina/cpp_hw/toys_catalog/cmake-build-debug/CMakeFiles/CMakeTmp'
+/usr/bin/make -f CMakeFiles/cmTC_0c190.dir/build.make CMakeFiles/cmTC_0c190.dir/build
+make[2]: Entering directory '/home/maks/Desktop/questina/cpp_hw/toys_catalog/cmake-build-debug/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_0c190.dir/CheckFunctionExists.c.o
+/usr/bin/cc   -Wpedantic -Wall -Wextra -Werror -DCHECK_FUNCTION_EXISTS=pthread_create   -o CMakeFiles/cmTC_0c190.dir/CheckFunctionExists.c.o   -c /usr/share/cmake-3.16/Modules/CheckFunctionExists.c
+Linking C executable cmTC_0c190
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_0c190.dir/link.txt --verbose=1
+/usr/bin/cc  -Wpedantic -Wall -Wextra -Werror -DCHECK_FUNCTION_EXISTS=pthread_create   -coverage -lgcov -coverage -lgcov  CMakeFiles/cmTC_0c190.dir/CheckFunctionExists.c.o  -o cmTC_0c190  -lpthreads 
+/usr/bin/ld: cannot find -lpthreads
+collect2: error: ld returned 1 exit status
+make[2]: *** [CMakeFiles/cmTC_0c190.dir/build.make:87: cmTC_0c190] Error 1
+make[2]: Leaving directory '/home/maks/Desktop/questina/cpp_hw/toys_catalog/cmake-build-debug/CMakeFiles/CMakeTmp'
+make[1]: *** [Makefile:121: cmTC_0c190/fast] Error 2
+make[1]: Leaving directory '/home/maks/Desktop/questina/cpp_hw/toys_catalog/cmake-build-debug/CMakeFiles/CMakeTmp'
+
+
+

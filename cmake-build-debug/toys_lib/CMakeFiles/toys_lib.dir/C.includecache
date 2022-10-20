@@ -1,0 +1,20 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/home/maks/Desktop/questina/cpp_hw/toys_catalog/toys_lib/toys.c
+toys.h
+/home/maks/Desktop/questina/cpp_hw/toys_catalog/toys_lib/toys.h
+stdio.h
+-
+stdlib.h
+-
+string.h
+-
+
+/home/maks/Desktop/questina/cpp_hw/toys_catalog/toys_lib/toys.h
+

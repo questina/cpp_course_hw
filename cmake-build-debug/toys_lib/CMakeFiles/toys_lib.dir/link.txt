@@ -1,2 +1,0 @@
-/usr/bin/ar qc libtoys_lib.a  CMakeFiles/toys_lib.dir/toys.c.o
-/usr/bin/ranlib libtoys_lib.a

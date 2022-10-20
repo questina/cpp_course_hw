@@ -5,10 +5,10 @@ jobs:
     runs-on: ubuntu-latest
     container: "Dockerfile"
     steps:
+      - uses: actions/checkout@v2
       - name: Build docker images
         run: docker build -t local < Dockerfile
       - name: Run tests
-        uses: actions/checkout@v2
         run: docker run -it -v $PWD:/srv -w/srv local make check
   build:
     runs-on: ubuntu-latest

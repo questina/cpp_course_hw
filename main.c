@@ -9,11 +9,9 @@
 // Составить с ее использованием программу определения наличия игрушек,
 // произведенных в интересующей пользователя стране.
 
-
-
 int main() {
-    struct toy_array store = init_data();
-    find_toys_spec_by_country(store, NULL);
-    free(store.toys);
-    return 0;
+  struct toy_array store = init_data();
+  find_toys_spec_by_country(store, "USA");
+  free(store.toys);
+  return 0;
 }

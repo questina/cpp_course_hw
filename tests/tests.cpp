@@ -13,6 +13,6 @@ TEST(TOYS_CATALOG, TEST_ADD_TOY){
     EXPECT_FLOAT_EQ(toy_store.toys[0].price, 10000.9999999);
     EXPECT_EQ(toy_store.toys[0].country, "Russia");
     EXPECT_EQ(toy_store.toys[0].amount, 1000000);
-    add_toy_res = add_toy(nullptr, (char *)"Toy", 11, "USA", 1000);
+    add_toy_res = add_toy(nullptr, (char *)"Toy", 11, (char *)"USA", 1000);
     EXPECT_EQ(add_toy_res, -1);
 }

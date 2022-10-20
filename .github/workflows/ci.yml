@@ -1,18 +1,28 @@
 on: push
 
 jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+      - name: Build the Docker image
+        run: docker build . --file Dockerfile --tag questina_image
+
   check:
     runs-on: ubuntu-latest
-    container: "dockerfile"
+    container: questina_image
     steps:
       - uses: actions/checkout@v2
       - name: Build docker images
-        run: docker build -t local < dockerfile
+        run: docker build -t local < Dockerfile
       - name: Run tests
         run: docker run -it -v $PWD:/srv -w/srv local make check
-  build:
+
+  build_program:
     runs-on: ubuntu-latest
-    container: "dockerfile"
+    container: "Dockerfile"
     needs: [check]
     steps:
       - uses: actions/checkout@v2

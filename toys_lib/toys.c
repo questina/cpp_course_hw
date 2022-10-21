@@ -16,11 +16,19 @@ int add_toy(struct toy_array *store, char *toy_name, double toy_price,
     new_toy.amount = toy_amount;
     if (store->toys == NULL) {
       store->toys = malloc(sizeof(struct toy));
+      if (!store->toys){
+          fprintf(stderr, "Cannot allocate memory for store");
+          return -1;
+      }
       store->toys[0] = new_toy;
       store->size += 1;
     } else {
       store->toys =
           realloc(store->toys, (store->size + 1) * sizeof(struct toy));
+      if (!store->toys){
+          fprintf(stderr, "Cannot reallocate memory for store");
+          return -1;
+      }
       store->toys[store->size] = new_toy;
       store->size += 1;
     }
@@ -28,9 +36,12 @@ int add_toy(struct toy_array *store, char *toy_name, double toy_price,
   return 0;
 }
 
-struct toy_array find_toys_spec_by_country(const struct toy_array store,
+int find_toys_spec_by_country(const struct toy_array store,
                                            const char *toy_country) {
-  struct toy_array suitable_toys = {0, NULL};
+  if (store == NULL) {
+      fprintf(stderr, "Incorrect store passed");
+      return -1;
+  }
   for (int i = 0; i < store.size; i++) {
     if ((strcmp(store.toys[i].country, toy_country) == 0) &&
         (store.toys[i].amount > 0)) {
@@ -38,7 +49,7 @@ struct toy_array find_toys_spec_by_country(const struct toy_array store,
              store.toys[i].price, store.toys[i].amount);
     }
   }
-  return suitable_toys;
+  return 0;
 }
 
 struct toy_array init_data() {

@@ -16,3 +16,10 @@ TEST(TOYS_CATALOG, TEST_ADD_TOY){
     add_toy_res = add_toy(nullptr, (char *)"Toy", 11, (char *)"USA", 1000);
     EXPECT_EQ(add_toy_res, -1);
 }
+
+TEST(TOYS_CATALOG, TEST_FIND_CORRECT_COUNTRY){
+    struct toy_array toy_store = init_data();
+    int add_toy_res = add_toy(&toy_store, (char *)"Lego", 6, (char *)"France", 1);
+    EXPECT_EQ(add_toy_res, 0);
+
+}

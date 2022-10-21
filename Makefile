@@ -8,13 +8,15 @@ build: ${TARGET}
 ${TARGET}: ${INCLUDE_DIRS} ${SOURCE_FILES}
 	gcc -g -Wpedantic -Wall -Wextra -Werror -I ${INCLUDE_DIRS} ${SOURCE_FILES} -o ${TARGET}
 
-run: ${TARGET}
+run: ${TARGET} build
 	./${TARGET}
 
 clean:
 	rm -rf cmake-build-debug
 	rm -rf report
 	rm -f coverage.info
+	rm -f main
+	rm -rf main.dSYM
 
 check: check-sanitizer check-valgrind clean
 

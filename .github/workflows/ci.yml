@@ -3,8 +3,9 @@ on: push
 jobs:
   check:
     runs-on: ubuntu-latest
-    container: questina/c_infrastructure:firsttry
-    options: --user 1001
+    container:
+      image: questina/c_infrastructure:firsttry
+      options: --user 1001
     steps:
       - uses: actions/checkout@v2
       - run: make check

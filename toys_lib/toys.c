@@ -15,7 +15,7 @@ int add_toy(struct toy_array *store, char *toy_name, double toy_price,
     new_toy.country = toy_country;
     new_toy.amount = toy_amount;
     if (store->toys == NULL) {
-      store->toys = malloc(sizeof(new_toy));
+      store->toys = malloc(sizeof(struct toy));
       if (!store->toys){
           fprintf(stderr, "Cannot allocate memory for store");
           return -1;
@@ -29,9 +29,10 @@ int add_toy(struct toy_array *store, char *toy_name, double toy_price,
       if (!store->toys){
           fprintf(stderr, "Cannot reallocate memory for store");
           return -1;
+      } else {
+          store->toys[store->size] = new_toy;
+          store->size += 1;
       }
-      store->toys[store->size] = new_toy;
-      store->size += 1;
     }
   }
   return 0;

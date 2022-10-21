@@ -1,15 +1,13 @@
 TARGET = main
-INCLUDE_DIRS = toys_lib
+LIB_DIR = toys_lib
+TEST_DIR = tests
 SOURCE_FILES = main.c \
 			   toys_lib/*.c
-
-build:
-	gcc -g -Wpedantic -Wall -Wextra -Werror -I ${INCLUDE_DIRS} ${SOURCE_FILES} -o ${TARGET}
-
-run:
-	./${TARGET}
-
-build_and_run: build run clean
+HEADER_FILES = toys_lib/*.h
+TEST_FILES = ${TEST_DIR}/tests.cpp
+BUILD_FILE = cmake-build-debug
+MAIN_PROJECT_NAME = toys_catalog
+TEST_PROJECT_NAME = test_toys_store
 
 clean:
 	rm -rf cmake-build-debug
@@ -18,44 +16,54 @@ clean:
 	rm -f main
 	rm -rf main.dSYM
 
+build_and_run: build run clean
+
+build:
+	gcc -g -Wpedantic -Wall -Wextra -Werror -I ${LIB_DIR} ${SOURCE_FILES} -o ${TARGET}
+
+run:
+	./${TARGET}
+
 check: check-stat-analysis check-linters check-sanitizer check-valgrind clean
 
 check-sanitizer:
 	echo "Run sanitizer"
-	cmake -DCMAKE_BUILD_TYPE=Debug SANITIZER_BUILD=ON -S ./ -B ./cmake-build-debug
-	cmake --build ./cmake-build-debug --target toys_catalog
-	./cmake-build-debug/toys_catalog
+	cmake -DCMAKE_BUILD_TYPE=Debug SANITIZER_BUILD=ON -S ./ -B ./${BUILD_FILE}
+	cmake --build ./${BUILD_FILE} --target ${MAIN_PROJECT_NAME}
+	./${BUILD_FILE}/${MAIN_PROJECT_NAME}
 
 check-valgrind:
 	echo "Run valgrind"
-	cmake -DCMAKE_BUILD_TYPE=Debug -S ./ -B ./cmake-build-debug
-	cmake --build ./cmake-build-debug --target toys_catalog
-	valgrind --tool=memcheck --leak-check=yes --exit-on-first-error=yes --error-exitcode=1 ./cmake-build-debug/toys_catalog
+	cmake -DCMAKE_BUILD_TYPE=Debug -S ./ -B ./${BUILD_FILE}
+	cmake --build ./${BUILD_FILE} --target ${MAIN_PROJECT_NAME}
+	valgrind --tool=memcheck --leak-check=yes --exit-on-first-error=yes --error-exitcode=1 ./${BUILD_FILE}/${MAIN_PROJECT_NAME}
 
 check-stat-analysis:
 	echo "Run static analysis cppcheck and cpplint"
-	cppcheck main.c toys_lib/toys.c toys_lib/toys.h tests/tests.cpp --enable=all --inconclusive --error-exitcode=1 --suppress=missingInclude
-	cpplint --extensions=c main.c toys_lib/toys.c toys_lib/toys.h tests/tests.cpp
+	cppcheck ${SOURCE_FILES} ${HEADER_FILES} ${TEST_FILES} --enable=all --inconclusive --error-exitcode=1 --suppress=missingInclude
+	cpplint --extensions=c ${SOURCE_FILES} ${HEADER_FILES} ${TEST_FILES}
 
 check-linters:
 	echo "Running linter clang-tidy"
-	clang-tidy main.c toys_lib/toys.c toys_lib/toys.h --fix-errors -warnings-as-errors=* -extra-arg=-std=c99 --
+	clang-tidy ${SOURCE_FILES} ${HEADER_FILES} --fix-errors -warnings-as-errors=* -extra-arg=-std=c99 --
 
 test: test-with-valgrind test-with-coverage clean
 
 test-with-coverage:
 	echo "Running tests with coverage"
-	cmake -DCMAKE_BUILD_TYPE=Debug -S ./ -B ./cmake-build-debug
-	cmake --build ./cmake-build-debug --target test_toys_store
-	./cmake-build-debug/tests/test_toys_store
-	lcov -t "tests/tests" -o coverage.info -c -d ./cmake-build-debug/toys_lib/
+	cmake -DCMAKE_BUILD_TYPE=Debug -S ./ -B ./${BUILD_FILE}
+	cmake --build ./${BUILD_FILE} --target ${TEST_PROJECT_NAME}
+	./${BUILD_FILE}/${TEST_DIR}/${TEST_PROJECT_NAME}
+	lcov -t "tests/tests" -o coverage.info -c -d ./${BUILD_FILE}/${LIB_DIR}/
 	genhtml -o report coverage.info
 
 test-with-valgrind:
-	cmake -DCMAKE_BUILD_TYPE=Debug -S ./ -B ./cmake-build-debug
-	cmake --build ./cmake-build-debug --target test_toys_store
-	valgrind --tool=memcheck --leak-check=yes --exit-on-first-error=yes --error-exitcode=1 ./cmake-build-debug/tests/test_toys_store
+	echo "Running tests in valgrind"
+	cmake -DCMAKE_BUILD_TYPE=Debug -S ./ -B ./${BUILD_FILE}
+	cmake --build ./${BUILD_FILE} --target  ${TEST_PROJECT_NAME}
+	valgrind --tool=memcheck --leak-check=yes --exit-on-first-error=yes --error-exitcode=1 ./${BUILD_FILE}/${TEST_DIR}/${TEST_PROJECT_NAME}
 
 test-with-sanitizer:
-	cmake -DCMAKE_BUILD_TYPE=Debug SANITIZER_BUILD=ON -S ./ -B ./cmake-build-debug
-	cmake --build ./cmake-build-debug --target test_toys_store
+	echo "Running tests with sanitizer"
+	cmake -DCMAKE_BUILD_TYPE=Debug SANITIZER_BUILD=ON -S ./ -B ./${BUILD_FILE}
+	cmake --build ./${BUILD_FILE} --target ${TEST_PROJECT_NAME}

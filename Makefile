@@ -18,10 +18,10 @@ clean:
 	rm -f main
 	rm -rf main.dSYM
 
-check: check-stat-analysis check-sanitizer check-valgrind check-linters clean
+check: check-stat-analysis check-linters check-sanitizer check-valgrind clean
 
 check-sanitizer:
-	echo "Run with sanitizer"
+	echo "Run sanitizer"
 	cmake -DCMAKE_BUILD_TYPE=Debug SANITIZER_BUILD=ON -S ./ -B ./cmake-build-debug
 	cmake --build ./cmake-build-debug --target toys_catalog
 	./cmake-build-debug/toys_catalog
@@ -30,22 +30,28 @@ check-valgrind:
 	echo "Run valgrind"
 	cmake -DCMAKE_BUILD_TYPE=Debug -S ./ -B ./cmake-build-debug
 	cmake --build ./cmake-build-debug --target toys_catalog
-	valgrind --tool=memcheck --leak-check=yes ./cmake-build-debug/toys_catalog
+	valgrind --tool=memcheck --leak-check=yes --exit-on-first-error=yes --error-exitcode=1 ./cmake-build-debug/toys_catalog
 
 check-stat-analysis:
+	echo "Run static analysis cppcheck and cpplint"
 	cppcheck main.c toys_lib/toys.c toys_lib/toys.h tests/tests.cpp --enable=all --inconclusive --error-exitcode=1 --suppress=missingInclude
-	# pip3 install cpplint
 	cpplint --extensions=c main.c toys_lib/toys.c toys_lib/toys.h tests/tests.cpp
 
 check-linters:
+	echo "Running linter clang-tidy"
 	clang-tidy main.c toys_lib/toys.c toys_lib/toys.h --fix-errors -warnings-as-errors=* -extra-arg=-std=c99 --
 
-test: test-with-coverage clean
+test: test-with-valgrind test-with-coverage clean
 
 test-with-coverage:
-	echo "Running tests"
+	echo "Running tests with coverage"
 	cmake -DCMAKE_BUILD_TYPE=Debug -S ./ -B ./cmake-build-debug
 	cmake --build ./cmake-build-debug --target test_toys_store
 	./cmake-build-debug/tests/test_toys_store
 	lcov -t "tests/tests" -o coverage.info -c -d ./cmake-build-debug/toys_lib/
 	genhtml -o report coverage.info
+
+test-with-valgrind:
+	cmake -DCMAKE_BUILD_TYPE=Debug -S ./ -B ./cmake-build-debug
+	cmake --build ./cmake-build-debug --target test_toys_store
+	valgrind --tool=memcheck --leak-check=yes --exit-on-first-error=yes --error-exitcode=1 ./cmake-build-debug/tests/test_toys_store

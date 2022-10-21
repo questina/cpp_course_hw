@@ -24,5 +24,5 @@ TEST(TOYS_CATALOG, TEST_FIND_CORRECT_COUNTRY){
     testing::internal::CaptureStdout();
     find_toys_spec_by_country(toy_store, "France")
     std::string output = testing::internal::GetCapturedStdout();
-    EXPECT_EQ(output, "name = Lego, price = 6, amount = 1\n")
+    EXPECT_EQ(output, "name = Lego, price = 6, amount = 1\n");
 }

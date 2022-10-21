@@ -37,8 +37,12 @@ check-format:
 	clang-format -i toys_lib/toys.c
 	clang-format -i toys_lib/toys.h
 
-check-linters:
+check_stat_analysis:
 	cppcheck main.c toys_lib/toys.c toys_lib/toys.h tests/tests.cpp --enable=all --inconclusive --error-exitcode=1 --suppress=missingInclude
+	# pip3 install cpplint
+	cpplint --extensions=c main.c toys_lib/toys.c toys_lib/toys.h tests/tests.cpp
+
+check-linters:
 	clang-tidy main.c toys_lib/toys.c toys_lib/toys.h --fix-errors -warnings-as-errors=* -extra-arg=-std=c99 --
 
 test: test-with-coverage clean

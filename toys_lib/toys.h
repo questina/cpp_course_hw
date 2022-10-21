@@ -1,3 +1,6 @@
+#ifndef TOYS_LIB_TOYS_H_
+#define TOYS_LIB_TOYS_H_
+
 struct toy {
   char *name;
   double price;
@@ -17,3 +20,5 @@ void find_toys_spec_by_country(struct toy_array store,
         const char *toy_country);
 
 struct toy_array init_data(void);
+
+#endif  // TOYS_LIB_TOYS_H_

@@ -1,5 +1,5 @@
-#include "toys_lib/toys.h"
 #include <stdlib.h>
+#include "toys_lib/toys.h"
 
 // Вариант #7
 // Создать структуру для хранения позиций каталога магазина детских игрушек:

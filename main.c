@@ -1,4 +1,5 @@
 #include <stdlib.h>
+#include <stdio.h>
 #include "toys_lib/toys.h"
 
 // Вариант #7
@@ -11,6 +12,10 @@
 
 int main() {
   struct toy_array store = init_data();
+  if (store.toys == NULL){
+      fprintf(stderr, "Error in init_data");
+      return 1;
+  }
   find_toys_spec_by_country(store, "USA");
   free(store.toys);
   return 0;

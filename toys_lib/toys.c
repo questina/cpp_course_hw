@@ -51,12 +51,44 @@ void find_toys_spec_by_country(const struct toy_array store,
   }
 }
 
+
 struct toy_array init_data() {
   struct toy_array store = {0, NULL};
-  add_toy(&store, "Teddybear", 89.99, "USA", 50);
-  add_toy(&store, "Puzzle", 12.99, "Russia", 200);
-  add_toy(&store, "HelloKitty", 35.5, "USA", 10000);
-  add_toy(&store, "NinjaTurtle", 74.2, "China", 3);
-  add_toy(&store, "Doggy", 58, "China", 45);
+  int add_res;
+  add_res = add_toy(&store, "Teddybear", 89.99, "USA", 50);
+  if (add_res != 0) {
+      free(store.toys);
+      store.toys = NULL;
+      fprintf(stderr, "Error in add_toy");
+      return store;
+  }
+  add_res = add_toy(&store, "Puzzle", 12.99, "Russia", 200);
+  if (add_res != 0) {
+        free(store.toys);
+        store.toys = NULL;
+        fprintf(stderr, "Error in add_toy");
+        return store;
+  }
+  add_res = add_toy(&store, "HelloKitty", 35.5, "USA", 10000);
+  if (add_res != 0) {
+        free(store.toys);
+        store.toys = NULL;
+        fprintf(stderr, "Error in add_toy");
+        return store;
+  }
+  add_res = add_toy(&store, "NinjaTurtle", 74.2, "China", 3);
+  if (add_res != 0) {
+        free(store.toys);
+        store.toys = NULL;
+        fprintf(stderr, "Error in add_toy");
+        return store;
+  }
+  add_res = add_toy(&store, "Doggy", 58, "China", 45);
+  if (add_res != 0) {
+        free(store.toys);
+        store.toys = NULL;
+        fprintf(stderr, "Error in add_toy");
+        return store;
+  }
   return store;
 }

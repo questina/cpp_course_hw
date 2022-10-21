@@ -55,3 +55,7 @@ test-with-valgrind:
 	cmake -DCMAKE_BUILD_TYPE=Debug -S ./ -B ./cmake-build-debug
 	cmake --build ./cmake-build-debug --target test_toys_store
 	valgrind --tool=memcheck --leak-check=yes --exit-on-first-error=yes --error-exitcode=1 ./cmake-build-debug/tests/test_toys_store
+
+test-with-sanitizer:
+	cmake -DCMAKE_BUILD_TYPE=Debug SANITIZER_BUILD=ON -S ./ -B ./cmake-build-debug
+	cmake --build ./cmake-build-debug --target test_toys_store

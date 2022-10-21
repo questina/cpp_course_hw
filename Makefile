@@ -41,7 +41,7 @@ check-valgrind:
 check-stat-analysis:
 	echo "Run static analysis cppcheck and cpplint"
 	cppcheck ${SOURCE_FILES} ${HEADER_FILES} ${TEST_FILES} --enable=all --inconclusive --error-exitcode=1 --suppress=missingInclude
-	cpplint --extensions=c ${SOURCE_FILES} ${HEADER_FILES} ${TEST_FILES}
+	cpplint --extensions=c ${SOURCE_FILES} ${HEADER_FILES}
 
 check-linters:
 	echo "Running linter clang-tidy"

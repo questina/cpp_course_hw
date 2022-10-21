@@ -4,7 +4,9 @@ jobs:
   check:
     runs-on: ubuntu-latest
     container: questina/c_infrastructure:firsttry
+    options: --user 1001
     steps:
+      - uses: actions/checkout@v2
       - run: make check
   build:
     runs-on: ubuntu-latest

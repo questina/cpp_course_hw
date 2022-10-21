@@ -51,7 +51,7 @@ void find_toys_spec_by_country(const struct toy_array store,
   }
 }
 
-int check_add_res(int add_res, struct toy_array *store){
+int check_add_res(int add_res, struct toy_array *store) {
     if (add_res != 0) {
         free(store->toys);
         store->toys = NULL;

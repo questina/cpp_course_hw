@@ -38,7 +38,7 @@ check-format:
 	clang-format -i toys_lib/toys.h
 
 check-linters:
-	cppcheck .. --enable=all --inconclusive --error-exitcode=1 --suppress=missingInclude
+	cppcheck main.c toys_lib/toys.c toys_lib/toys.h tests/tests.cpp --enable=all --inconclusive --error-exitcode=1 --suppress=missingInclude
 	clang-tidy main.c toys_lib/toys.c toys_lib/toys.h -warnings-as-errors=* -extra-arg=-std=c99
 
 test: test-with-coverage clean

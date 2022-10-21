@@ -36,12 +36,8 @@ int add_toy(struct toy_array *store, char *toy_name, double toy_price,
   return 0;
 }
 
-int find_toys_spec_by_country(const struct toy_array store,
+void find_toys_spec_by_country(const struct toy_array store,
                                            const char *toy_country) {
-  if (store == NULL) {
-      fprintf(stderr, "Incorrect store passed");
-      return -1;
-  }
   for (int i = 0; i < store.size; i++) {
     if ((strcmp(store.toys[i].country, toy_country) == 0) &&
         (store.toys[i].amount > 0)) {
@@ -49,7 +45,6 @@ int find_toys_spec_by_country(const struct toy_array store,
              store.toys[i].price, store.toys[i].amount);
     }
   }
-  return 0;
 }
 
 struct toy_array init_data() {

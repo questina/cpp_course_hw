@@ -3,13 +3,13 @@ INCLUDE_DIRS = toys_lib
 SOURCE_FILES = main.c \
 			   toys_lib/*.c
 
-build: ${TARGET}
-
-${TARGET}: ${INCLUDE_DIRS} ${SOURCE_FILES}
+build:
 	gcc -g -Wpedantic -Wall -Wextra -Werror -I ${INCLUDE_DIRS} ${SOURCE_FILES} -o ${TARGET}
 
-run: ${TARGET} build
+run:
 	./${TARGET}
+
+build_and_run: build run clean
 
 clean:
 	rm -rf cmake-build-debug
@@ -18,7 +18,7 @@ clean:
 	rm -f main
 	rm -rf main.dSYM
 
-check: check-sanitizer check-valgrind clean
+check: check-sanitizer check-valgrind check-linters clean
 
 check-sanitizer:
 	echo "Run with sanitizer"
@@ -38,8 +38,8 @@ check-format:
 	clang-format -i toys_lib/toys.h
 
 check-linters:
-	chmod +x ./linters/run.sh
-	./linters/run.sh
+	cppcheck .. --enable=all --inconclusive --error-exitcode=1 --suppress=missingInclude
+	clang-tidy main.c toys_lib/toys.c toys_lib/toys.h -warnings-as-errors=* -extra-arg=-std=c99
 
 test: test-with-coverage clean
 
@@ -48,6 +48,5 @@ test-with-coverage:
 	cmake -DCMAKE_BUILD_TYPE=Debug -S ./ -B ./cmake-build-debug
 	cmake --build ./cmake-build-debug --target test_toys_store
 	./cmake-build-debug/tests/test_toys_store
-	pip install lcov
 	lcov -t "tests/tests" -o coverage.info -c -d ./cmake-build-debug/toys_lib/
 	genhtml -o report coverage.info

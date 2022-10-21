@@ -17,7 +17,7 @@ jobs:
     needs: [check]
     steps:
       - uses: actions/checkout@v2
-      - run: make run
+      - run: make build_and_run
       - name: Upload artifacts
         uses: actions/upload-artifact@v2
         with:

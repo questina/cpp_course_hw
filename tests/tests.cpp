@@ -31,6 +31,6 @@ TEST(TOYS_CATALOG, TEST_FIND_CORRECT_COUNTRY){
     find_toys_spec_by_country(toy_store, "USA");
     output = testing::internal::GetCapturedStdout();
     EXPECT_EQ(output, "name = Teddybear, price = 89.99, amount = 50\n"
-                      "name = HelloKitty, price = 35.50, amount = 10000");
+                      "name = HelloKitty, price = 35.50, amount = 10000\n");
     free(toy_store.toys);
 }

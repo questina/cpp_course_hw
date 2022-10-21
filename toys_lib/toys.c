@@ -34,7 +34,7 @@ struct toy_array find_toys_spec_by_country(const struct toy_array store,
   for (int i = 0; i < store.size; i++) {
     if ((strcmp(store.toys[i].country, toy_country) == 0) &&
         (store.toys[i].amount > 0)) {
-      printf("name = %s, price = %f, amount = %d\n", store.toys[i].name,
+      printf("name = %s, price = %.2f, amount = %d\n", store.toys[i].name,
              store.toys[i].price, store.toys[i].amount);
     }
   }

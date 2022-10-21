@@ -18,7 +18,7 @@ clean:
 	rm -f main
 	rm -rf main.dSYM
 
-check: check-sanitizer check-valgrind check-linters clean
+check: check-stat-analysis check-sanitizer check-valgrind check-linters clean
 
 check-sanitizer:
 	echo "Run with sanitizer"
@@ -32,12 +32,7 @@ check-valgrind:
 	cmake --build ./cmake-build-debug --target toys_catalog
 	valgrind --tool=memcheck --leak-check=yes ./cmake-build-debug/toys_catalog
 
-check-format:
-	clang-format -i main.c
-	clang-format -i toys_lib/toys.c
-	clang-format -i toys_lib/toys.h
-
-check_stat_analysis:
+check-stat-analysis:
 	cppcheck main.c toys_lib/toys.c toys_lib/toys.h tests/tests.cpp --enable=all --inconclusive --error-exitcode=1 --suppress=missingInclude
 	# pip3 install cpplint
 	cpplint --extensions=c main.c toys_lib/toys.c toys_lib/toys.h tests/tests.cpp

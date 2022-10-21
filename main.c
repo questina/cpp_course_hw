@@ -12,7 +12,7 @@
 
 int main() {
   struct toy_array store = init_data();
-  if (store.toys == NULL){
+  if (store.toys == NULL) {
       fprintf(stderr, "Error in init_data");
       return 1;
   }

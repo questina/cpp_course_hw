@@ -34,7 +34,5 @@ TEST(TOYS_CATALOG, TEST_FIND_CORRECT_COUNTRY){
     std::string output = testing::internal::GetCapturedStdout();
     EXPECT_EQ(output, "name = Teddybear, price = 89.99, amount = 50\n"
                       "name = HelloKitty, price = 35.50, amount = 10000");
-    find_toys_res = find_toys_spec_by_country(nullptr, "USA");
-    EXPECT_EQ(find_toys_res, -1);
     free(toy_store.toys);
 }

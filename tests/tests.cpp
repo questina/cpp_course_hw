@@ -7,21 +7,20 @@ extern "C" {
 
 TEST(TOYS_CATALOG, TEST_ADD_TOY){
     struct toy_array toy_store = {0, nullptr};
-    int add_toy_res = add_toy(&toy_store, static_cast<char*>("TeddyBear"), 10000.9999999,
-            static_cast<char*>("Russia"), 1000000);
+    int add_toy_res = add_toy(&toy_store, "TeddyBear", 10000.9999999, "Russia", 1000000);
     EXPECT_EQ(add_toy_res, 0);
     EXPECT_EQ(toy_store.toys[0].name, "TeddyBear");
     EXPECT_FLOAT_EQ(toy_store.toys[0].price, 10000.9999999);
     EXPECT_EQ(toy_store.toys[0].country, "Russia");
     EXPECT_EQ(toy_store.toys[0].amount, 1000000);
     free(toy_store.toys);
-    add_toy_res = add_toy(nullptr, static_cast<char*>("Toy"), 11, static_cast<char*>("USA"), 1000);
+    add_toy_res = add_toy(nullptr, "Toy", 11, "USA", 1000);
     EXPECT_EQ(add_toy_res, -1);
 }
 
 TEST(TOYS_CATALOG, TEST_FIND_CORRECT_COUNTRY){
     struct toy_array toy_store = init_data();
-    int add_toy_res = add_toy(&toy_store, static_cast<char*>("Lego"), 6, static_cast<char*>("France"), 1);
+    int add_toy_res = add_toy(&toy_store, "Lego", 6,"France", 1);
     EXPECT_EQ(add_toy_res, 0);
     testing::internal::CaptureStdout();
     find_toys_spec_by_country(toy_store, "France");

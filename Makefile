@@ -24,7 +24,7 @@ build:
 run:
 	./${TARGET}
 
-check: check-stat-analysis check-linters check-sanitizer check-valgrind clean
+check: check-stat-analysis check-linters check-sanitizer clean check-valgrind clean
 
 check-sanitizer:
 	echo "Run sanitizer"

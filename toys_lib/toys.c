@@ -3,8 +3,8 @@
 #include <stdlib.h>
 #include <string.h>
 
-int add_toy(struct toy_array *store, char *toy_name, double toy_price,
-            char *toy_country, int toy_amount) {
+int add_toy(struct toy_array *store, const char *toy_name, double toy_price,
+            const char *toy_country, int toy_amount) {
   if (store == NULL) {
     fprintf(stderr, "Incorrect store passed");
     return -1;

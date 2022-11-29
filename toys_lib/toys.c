@@ -89,5 +89,5 @@ struct toy_array init_data() {
 }
 
 void free_data(struct toy_array *store) {
-    free(store);
+    free(store->toys);
 }

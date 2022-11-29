@@ -17,6 +17,6 @@ int main() {
       return 1;
   }
   find_toys_spec_by_country(store, "USA");
-  free(store.toys);
+  free_data(&store);
   return 0;
 }

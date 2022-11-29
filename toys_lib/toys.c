@@ -17,6 +17,7 @@ int add_toy(struct toy_array *store, const char *toy_name, double toy_price,
     if (store->toys == NULL) {
       store->toys = malloc(sizeof(struct toy));
       if (!store->toys) {
+          free(store->toys);
           fprintf(stderr, "Cannot allocate memory for store");
           return -1;
       }
@@ -85,4 +86,8 @@ struct toy_array init_data() {
         return store;
   }
   return store;
+}
+
+void free_data(struct toy_array *store) {
+    free(store);
 }

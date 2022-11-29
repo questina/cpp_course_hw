@@ -23,4 +23,6 @@ int check_add_res(int add_res, struct toy_array *store);
 
 struct toy_array init_data(void);
 
+void free_data(struct toy_array *store);
+
 #endif  // TOYS_LIB_TOYS_H_

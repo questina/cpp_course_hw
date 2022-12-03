@@ -1,0 +1,4 @@
+.idea
+*.out
+*.hpp.gch
+.DS_Store

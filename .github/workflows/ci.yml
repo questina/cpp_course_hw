@@ -1,0 +1,19 @@
+on: push
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    container:
+      image: questina/c_infrastructure:firsttry
+      options: --user 1001
+    steps:
+      - uses: actions/checkout@v2
+      - run: make build clean
+  test:
+    runs-on: ubuntu-latest
+    container:
+      image: questina/c_infrastructure:firsttry
+      options: --user 1001
+    steps:
+      - uses: actions/checkout@v2
+      - run: make matrtests clean

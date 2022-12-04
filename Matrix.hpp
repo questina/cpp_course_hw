@@ -66,7 +66,7 @@ public:
     Matrix<T, N, M> transpose() const;
     T determinant() const;
     Matrix<T, M, N> inverse() const;
-    Vector<T, std::min(M, N)> diagonal() const;
+    Vector<T, std::min(M, N), false> diagonal() const;
 
 };
 
@@ -229,7 +229,7 @@ Matrix<T, N, M> Matrix<T, M, N>::transpose() const {
 }
 
 template<typename T, size_t M, size_t N>
-Vector<T, std::min(M, N)> Matrix<T, M, N>::diagonal() const {
+Vector<T, std::min(M, N), false> Matrix<T, M, N>::diagonal() const {
     Vector<T, std::min(M, N)> res;
     for (int i = 0; i < std::min(M, N); i++) {
         res.assign(i, this->array[i*N + i]);

@@ -26,7 +26,7 @@ FetchContent_MakeAvailable(
 )
 
 add_executable(${PROJECT_NAME}
-        Matrix.cpp
+        main.cpp
 )
 
 add_custom_target(tests)

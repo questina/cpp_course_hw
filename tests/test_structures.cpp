@@ -1,5 +1,5 @@
 #include <gtest/gtest.h>
-#include "../Matrix.hpp"
+#include "include/Matrix.hpp"
 #include <iostream>
 
 #define EPSILON 0.001

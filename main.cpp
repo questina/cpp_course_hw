@@ -1,5 +1,5 @@
-#include "Matrix.hpp"
-#include "Vector.hpp"
+#include "include/Matrix.hpp"
+#include "include/Vector.hpp"
 #include <iostream>
 
 template <typename T, size_t M, bool COL>

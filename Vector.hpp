@@ -9,7 +9,6 @@ template<typename T = double, size_t M = 0, bool COL = false>
 class Vector {
 private:
     T array[M];
-    bool row;
 public:
     explicit Vector();
     Vector(const Vector<T, M, COL>&);
@@ -39,7 +38,6 @@ public:
 
 template<typename T, size_t M, bool COL>
 Vector<T, M, COL>::Vector() {
-    row = COL;
     for (int i = 0; i < M; i++) {
         array[i] = 0;
     }
@@ -52,7 +50,6 @@ Vector<T, M, COL>::Vector(const Vector<T, M, COL> &source) {
 
 template<typename T, size_t M, bool COL>
 Vector<T, M, COL>::Vector(const T &num) {
-    row = COL;
     for (int i = 0; i < M; i++) {
         array[i] = num;
     }
@@ -60,7 +57,6 @@ Vector<T, M, COL>::Vector(const T &num) {
 
 template<typename T, size_t M, bool COL>
 Vector<T, M, COL>::Vector(T vect[M]) {
-    row = COL;
     for (int i = 0; i < M; i++) {
         array[i] = vect[i];
     }

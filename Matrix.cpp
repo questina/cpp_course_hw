@@ -34,9 +34,8 @@ int main(){
     Vector<float, 3, true> v2(ans_v2);
     std::cout << equal(v2, ans_v2) << std::endl;
     Vector a;
-    std::cout << a(0) << std::endl;
-    double matr[3][3] = {{5, 7, 9}, {4, 3, 8}, {7, 5, 6}};
-    Matrix<double, 3, 3> m(matr);
-    m.inverse();
+    double matr[1][3] = {{5, 7, 9}};
+    Matrix<double, 1, 3> m(matr);
+    std::cout << m.diagonal()(0) << std::endl;
     return 0;
 }

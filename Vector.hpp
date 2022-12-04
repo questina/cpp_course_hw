@@ -5,207 +5,156 @@
 #include <type_traits>
 
 
-template<typename T, size_t M, size_t N = 1>
+template<typename T = double, size_t M = 0, bool COL = false>
 class Vector {
+private:
+    T array[M];
+    bool row;
 public:
-    T array[M][N];
     explicit Vector();
-    Vector(const Vector<T, M, N>&);
+    Vector(const Vector<T, M, COL>&);
     explicit Vector(const T&);
-    explicit Vector(T[M][N]);
+    explicit Vector(T[M]);
 
     T& operator()(unsigned int);
+    void assign(int, T);
 
-    Vector<T, M, N>  operator+ (const Vector<T, M, N>&) const;
-    Vector<T, M, N>& operator+=(const Vector<T, M, N>&);
-    Vector<T, M, N>  operator- (const Vector<T, M, N>&) const;
-    Vector<T, M, N>& operator-=(const Vector<T, M, N>&);
+    Vector<T, M, COL>  operator+ (const Vector<T, M, COL>&) const;
+    Vector<T, M, COL>& operator+=(const Vector<T, M, COL>&);
+    Vector<T, M, COL>  operator- (const Vector<T, M, COL>&) const;
+    Vector<T, M, COL>& operator-=(const Vector<T, M, COL>&);
 
-    Vector<T, M, N> operator* (const Vector<T, M, N>&) const;
-    Vector<T, M, N>& operator*= (const Vector<T, M, N>&);
+    Vector<T, M, COL> operator* (const Vector<T, M, COL>&) const;
+    Vector<T, M, COL>& operator*= (const Vector<T, M, COL>&);
 
     //operators with number
-    Vector<T, M, N>  operator* (const T&) const;
-    Vector<T, M, N>& operator*=(const T&);
-    Vector<T, M, N>  operator+ (const T&) const;
-    Vector<T, M, N>& operator+=(const T&);
-    Vector<T, M, N>  operator- (const T&) const;
-    Vector<T, M, N>& operator-=(const T&);
+    Vector<T, M, COL>  operator* (const T&) const;
+    Vector<T, M, COL>& operator*=(const T&);
+    Vector<T, M, COL>  operator+ (const T&) const;
+    Vector<T, M, COL>& operator+=(const T&);
+    Vector<T, M, COL>  operator- (const T&) const;
+    Vector<T, M, COL>& operator-=(const T&);
 
 };
 
-template<typename T, size_t M, size_t N>
-Vector<T, M, N>::Vector() {
-    static_assert(M == 1 || N == 1, "One of the axis must be equal to one.");
+template<typename T, size_t M, bool COL>
+Vector<T, M, COL>::Vector() {
+    row = COL;
     for (int i = 0; i < M; i++) {
-        for (int j = 0; j < N; j++) {
-            array[i][j] = 0;
-        }
+        array[i] = 0;
     }
 }
 
-template<typename T, size_t M, size_t N>
-Vector<T, M, N>::Vector(const Vector<T, M, N> &source) {
+template<typename T, size_t M, bool COL>
+Vector<T, M, COL>::Vector(const Vector<T, M, COL> &source) {
     (*this) = source;
 }
 
-template<typename T, size_t M, size_t N>
-Vector<T, M, N>::Vector(const T &num) {
-    static_assert(M == 1 || N == 1, "One of the axis must be equal to one.");
+template<typename T, size_t M, bool COL>
+Vector<T, M, COL>::Vector(const T &num) {
+    row = COL;
     for (int i = 0; i < M; i++) {
-        for (int j = 0; j < N; j++) {
-            array[i][j] = num;
-        }
+        array[i] = num;
     }
 }
 
-template<typename T, size_t M, size_t N>
-Vector<T, M, N>::Vector(T vect[M][N]) {
-    static_assert(M == 1 || N == 1, "One of the axis must be equal to one.");
-    if (M == 1) {
-        for (int j = 0; j < N; j++) {
-            array[0][j] = vect[0][j];
-        }
-    } else {
-        for (int i = 0; i < M; i++) {
-            array[i][0] = vect[i][0];
-        }
-    }
-}
-
-template<typename T, size_t M, size_t N>
-T &Vector<T, M, N>::operator()(unsigned int idx) {
-    if (M == 1) {
-        return array[0][idx];
-    } else {
-        return array[idx][0];
-    }
-}
-
-template<typename T, size_t M, size_t N>
-Vector<T, M, N> Vector<T, M, N>::operator+(const Vector<T, M, N> &mat) const {
-    Vector<T, M, N> res;
+template<typename T, size_t M, bool COL>
+Vector<T, M, COL>::Vector(T vect[M]) {
+    row = COL;
     for (int i = 0; i < M; i++) {
-        for (int j = 0; j < N; j++){
-            res.array[i][j] = this->array[i][j] + mat.array[i][j];
-        }
+        array[i] = vect[i];
     }
-    return res;
 }
 
-template<typename T, size_t M, size_t N>
-Vector<T, M, N>& Vector<T, M, N>::operator+=(const Vector<T, M, N>&mat) {
+template<typename T, size_t M, bool COL>
+T &Vector<T, M, COL>::operator()(unsigned int idx) {
+    return array[idx];
+}
+
+template<typename T, size_t M, bool COL>
+Vector<T, M, COL> Vector<T, M, COL>::operator+(const Vector<T, M, COL> &vect) const {
+    return Vector<T, M, COL>(*this) += vect;
+}
+
+template<typename T, size_t M, bool COL>
+Vector<T, M, COL>& Vector<T, M, COL>::operator+=(const Vector<T, M, COL>&vect) {
     for (int i = 0; i < M; i++) {
-        for (int j = 0; j < N; j++) {
-            this->array[i][j] += mat.array[i][j];
-        }
+        this->array[i] += vect.array[i];
     }
     return *this;
 }
 
-template<typename T, size_t M, size_t N>
-Vector<T, M, N> Vector<T, M, N>::operator-(const Vector<T, M, N> & mat) const {
-    Vector<T, M, N> res;
-    for (int i = 0; i < M; i++) {
-        for (int j = 0; j < N; j++){
-            res.array[i][j] = this->array[i][j] - mat.array[i][j];
-        }
-    }
-    return res;
+template<typename T, size_t M, bool COL>
+Vector<T, M, COL> Vector<T, M, COL>::operator-(const Vector<T, M, COL> &vect) const {
+    return Vector<T, M, COL>(*this) -= vect;
 }
 
-template<typename T, size_t M, size_t N>
-Vector<T, M, N>& Vector<T, M, N>::operator-=(const Vector<T, M, N> &mat) {
+template<typename T, size_t M, bool COL>
+Vector<T, M, COL>& Vector<T, M, COL>::operator-=(const Vector<T, M, COL> &vect) {
     for (int i = 0; i < M; i++) {
-        for (int j = 0; j < N; j++) {
-            this->array[i][j] -= mat.array[i][j];
-        }
+        this->array[i] -= vect.array[i];
     }
     return *this;
 }
 
-template<typename T, size_t M, size_t N>
-Vector<T, M, N> Vector<T, M, N>::operator*(const Vector<T, M, N> & mat) const {
-    Vector<T, M, N> res;
-    for (int i = 0; i < M; i++) {
-        for (int j = 0; j < N; j++){
-            res.array[i][j] = this->array[i][j] * mat.array[i][j];
-        }
-    }
-    return res;
+template<typename T, size_t M, bool COL>
+Vector<T, M, COL> Vector<T, M, COL>::operator*(const Vector<T, M, COL> &vect) const {
+    return Vector<T, M, COL>(*this) *= vect;
 }
 
-template<typename T, size_t M, size_t N>
-Vector<T, M, N> &Vector<T, M, N>::operator*=(const Vector<T, M, N> &mat) {
+template<typename T, size_t M, bool COL>
+Vector<T, M, COL> &Vector<T, M, COL>::operator*=(const Vector<T, M, COL> &vect) {
     for (int i = 0; i < M; i++) {
-        for (int j = 0; j < N; j++) {
-            this->array[i][j] *= mat.array[i][j];
-        }
+        this->array[i] *= vect.array[i];
     }
     return *this;
 }
 
-template<typename T, size_t M, size_t N>
-Vector<T, M, N> Vector<T, M, N>::operator*(const T &num) const {
-    Vector<T, M, N> res;
-    for (int i = 0; i < M; i++) {
-        for (int j = 0; j < N; j++){
-            res.array[i][j] = this->array[i][j] * num;
-        }
-    }
-    return res;
+template<typename T, size_t M, bool COL>
+Vector<T, M, COL> Vector<T, M, COL>::operator*(const T &num) const {
+    return Vector<T, M, COL>(*this) *= num;
 }
 
-template<typename T, size_t M, size_t N>
-Vector<T, M, N> &Vector<T, M, N>::operator*=(const T &num) {
+template<typename T, size_t M, bool COL>
+Vector<T, M, COL> &Vector<T, M, COL>::operator*=(const T &num) {
     for (int i = 0; i < M; i++) {
-        for (int j = 0; j < N; j++) {
-            this->array[i][j] *= num;
-        }
+        this->array[i] *= num;
     }
     return *this;
 }
 
-template<typename T, size_t M, size_t N>
-Vector<T, M, N> Vector<T, M, N>::operator+(const T &num) const {
-    Vector<T, M, N> res;
-    for (int i = 0; i < M; i++) {
-        for (int j = 0; j < N; j++){
-            res.array[i][j] = this->array[i][j] + num;
-        }
-    }
-    return res;
+template<typename T, size_t M, bool COL>
+Vector<T, M, COL> Vector<T, M, COL>::operator+(const T &num) const {
+    return Vector<T, M, COL>(*this) += num;
 }
 
-template<typename T, size_t M, size_t N>
-Vector<T, M, N> &Vector<T, M, N>::operator+=(const T &num) {
+template<typename T, size_t M, bool COL>
+Vector<T, M, COL> &Vector<T, M, COL>::operator+=(const T &num) {
     for (int i = 0; i < M; i++) {
-        for (int j = 0; j < N; j++) {
-            this->array[i][j] += num;
-        }
+        this->array[i] += num;
     }
     return *this;
 }
 
-template<typename T, size_t M, size_t N>
-Vector<T, M, N> Vector<T, M, N>::operator-(const T &num) const {
-    Vector<T, M, N> res;
-    for (int i = 0; i < M; i++) {
-        for (int j = 0; j < N; j++){
-            res.array[i][j] = this->array[i][j] - num;
-        }
-    }
-    return res;
+template<typename T, size_t M, bool COL>
+Vector<T, M, COL> Vector<T, M, COL>::operator-(const T &num) const {
+    return Vector<T, M, COL>(*this) -= num;
 }
 
-template<typename T, size_t M, size_t N>
-Vector<T, M, N> &Vector<T, M, N>::operator-=(const T &num) {
+template<typename T, size_t M, bool COL>
+Vector<T, M, COL> &Vector<T, M, COL>::operator-=(const T &num) {
     for (int i = 0; i < M; i++) {
-        for (int j = 0; j < N; j++) {
-            this->array[i][j] -= num;
-        }
+        this->array[i] -= num;
     }
     return *this;
+}
+
+template<typename T, size_t M, bool COL>
+void Vector<T, M, COL>::assign(int idx, T elem) {
+    if ((idx < 0 ) || (idx >= M)) {
+        throw std::invalid_argument("Index out of range");
+    }
+    this->array[idx] = elem;
 }
 
 

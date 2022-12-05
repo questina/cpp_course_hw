@@ -1,5 +1,5 @@
-#ifndef TOYS_CATALOG_ERROR_H_
-#define TOYS_CATALOG_ERROR_H_
+#ifndef LIBS_ERROR_ERROR_H_
+#define LIBS_ERROR_ERROR_H_
 
 #include "../toys/toys.h"
 
@@ -18,4 +18,5 @@ void init_message(struct status *mes, const char* str_mes, int status_code);
 
 void process_message(struct status mes);
 
-#endif
+
+#endif  // LIBS_ERROR_ERROR_H_

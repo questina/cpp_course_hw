@@ -72,7 +72,7 @@ struct status read_data(struct toy_array *store) {
         printf("Insert toys amount: ");
         amount = strtol(read_data_chunks(), NULL, 10);
         add_res = add_toy(store, name, price, country, amount);
-        if (add_res.status_code == -1){
+        if (add_res.status_code == -1) {
             return add_res;
         }
         free(name);
@@ -83,7 +83,7 @@ struct status read_data(struct toy_array *store) {
 }
 
 void write_data(struct toy_array store) {
-    for (int i = 0; i < store.size; i++){
+    for (int i = 0; i < store.size; i++) {
         printf("name = %s, price = %.2f, country = %s, amount = %d\n",
                store.toys[i].name, store.toys[i].price,
                store.toys[i].country, store.toys[i].amount);
@@ -91,7 +91,7 @@ void write_data(struct toy_array store) {
 }
 
 void free_data(struct toy_array *store) {
-    for (int i = 0; i < store->size; i++){
+    for (int i = 0; i < store->size; i++) {
         free(store->toys[i].name);
         free(store->toys[i].country);
     }

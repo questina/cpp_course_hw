@@ -32,7 +32,7 @@ check-sanitizer:
 	echo "Run sanitizer"
 	cmake -DCMAKE_BUILD_TYPE=Debug SANITIZER_BUILD=ON -S ./ -B ./${BUILD_FILE}
 	cmake --build ./${BUILD_FILE} --target ${MAIN_PROJECT_NAME}
-	./${BUILD_FILE}/${MAIN_PROJECT_NAME}
+	./${BUILD_FILE}/${MAIN_PROJECT_NAME} < ${INPUT_FILE}
 
 check-valgrind:
 	echo "Run valgrind"

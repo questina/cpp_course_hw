@@ -2,6 +2,7 @@
 #include "../error/error.h"
 #include <stdlib.h>
 #include <string.h>
+#include <stdio.h>
 
 
 struct status add_toy(struct toy_array *store, char *toy_name, double toy_price,
@@ -57,7 +58,9 @@ struct toys_with_status find_toys_spec_by_country(const struct toy_array store,
     for (int i = 0; i < store.size; i++) {
         if ((strcmp(store.toys[i].country, toy_country) == 0) &&
         (store.toys[i].amount > 0)) {
-            add_toy(&mes.toys, store.toys[i].name, store.toys[i].price, store.toys[i].country, store.toys[i].amount);
+            add_toy(&mes.toys, store.toys[i].name,
+                    store.toys[i].price, store.toys[i].country,
+                    store.toys[i].amount);
         }
     }
     init_message(&mes.st, "Success", 0);

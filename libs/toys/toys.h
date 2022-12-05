@@ -1,5 +1,5 @@
-#ifndef TOYS_CATALOG_TOYS_H_
-#define TOYS_CATALOG_TOYS_H_
+#ifndef LIBS_TOYS_TOYS_H_
+#define LIBS_TOYS_TOYS_H_
 
 struct toy {
   char *name;
@@ -19,4 +19,4 @@ struct status add_toy(struct toy_array *store, char *toy_name, double toy_price,
 struct toys_with_status find_toys_spec_by_country(struct toy_array store,
         const char *toy_country);
 
-#endif  // TOYS_CATALOG_TOYS_H_
+#endif  // LIBS_TOYS_TOYS_H_

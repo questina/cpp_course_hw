@@ -47,7 +47,7 @@ check-stat-analysis:
 
 check-linters:
 	echo "Running linter clang-tidy"
-	clang-tidy ${SOURCE_FILES} ${HEADER_FILES} --fix-errors -warnings-as-errors=* -extra-arg=-std=c99 --
+	clang-tidy ${SOURCE_FILES} ${HEADER_FILES} --fix-errors -extra-arg=-std=c99 --
 
 test: test-with-valgrind test-with-coverage clean
 

@@ -1,5 +1,6 @@
 #include "toys.h"
 #include "../error/error.h"
+#include "../io/io.h"
 #include <stdlib.h>
 #include <string.h>
 #include <stdio.h>
@@ -24,7 +25,7 @@ struct status add_toy(struct toy_array *store, char *toy_name, double toy_price,
         if (store->toys == NULL) {
             store->toys = malloc(sizeof(new_toy));
             if (!store->toys) {
-                free(store->toys);
+                free_data(store);
                 init_message(&mes, "Cannot allocate memory for store", -1);
                 return mes;
             }

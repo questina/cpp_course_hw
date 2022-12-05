@@ -26,6 +26,9 @@ unsigned int read_chunk(char* buffer) {
 char* read_data_chunks(void) {
     char buffer[CHUNK_SIZE];
     unsigned int bytes_read = read_chunk(buffer);
+    if (bytes_read == 0) {
+        return NULL;
+    }
     char* str = malloc(bytes_read * sizeof(char));
     if (!str) {
         free(str);

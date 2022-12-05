@@ -2,12 +2,13 @@ TARGET = main
 LIB_DIR = toys_lib
 TEST_DIR = tests
 SOURCE_FILES = main.c \
-			   toys_lib/*.c
-HEADER_FILES = toys_lib/*.h
+			   libs/*/*.c
+HEADER_FILES = libs/*/*.h
 TEST_FILES = ${TEST_DIR}/tests.cpp
 BUILD_FILE = cmake-build-debug
 MAIN_PROJECT_NAME = toys_catalog
 TEST_PROJECT_NAME = test_toys_store
+INPUT_FILE = input.txt
 
 clean:
 	rm -rf cmake-build-debug
@@ -19,10 +20,11 @@ clean:
 build_and_run: build run clean
 
 build:
-	gcc -g -Wpedantic -Wall -Wextra -Werror -I ${LIB_DIR} ${SOURCE_FILES} -o ${TARGET}
+	cmake -DCMAKE_BUILD_TYPE=Debug SANITIZER_BUILD=ON -S ./ -B ./${BUILD_FILE}
+	cmake --build ./${BUILD_FILE} --target ${MAIN_PROJECT_NAME}
 
 run:
-	./${TARGET}
+	./${BUILD_FILE}/${MAIN_PROJECT_NAME} < ${INPUT_FILE}
 
 check: check-stat-analysis check-linters check-sanitizer clean check-valgrind clean
 

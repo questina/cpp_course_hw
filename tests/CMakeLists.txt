@@ -11,4 +11,4 @@ find_package(GTest REQUIRED)
 
 add_executable(${PROJECT_NAME} ${SOURCES})
 target_include_directories(${PROJECT_NAME} PUBLIC ${TOYS_LIB_INCLUDE_DIRS})
-target_link_libraries(${PROJECT_NAME} ${TOYS_LIB_LIBRARIES} GTest::Main)
+target_link_libraries(${PROJECT_NAME} ${TOYS_LIB_LIBRARIES} GTest::Main GTest::gmock)

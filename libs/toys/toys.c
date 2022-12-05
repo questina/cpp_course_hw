@@ -14,10 +14,12 @@ struct status add_toy(struct toy_array *store, char *toy_name, double toy_price,
     } else {
         struct toy new_toy;
         new_toy.name = malloc(strlen(toy_name) * sizeof(char));
-        strcpy(new_toy.name, toy_name);
+        snprintf(new_toy.name, sizeof(toy_name) + 1, "%s", toy_name);
+        // strcpy(new_toy.name, toy_name);
         new_toy.price = toy_price;
         new_toy.country = malloc(strlen(toy_country) * sizeof(char));
-        strcpy(new_toy.country, toy_country);
+        snprintf(new_toy.country, sizeof(toy_country) + 1, "%s", toy_country);
+        // strcpy(new_toy.country, toy_country);
         new_toy.amount = toy_amount;
         if (store->toys == NULL) {
             store->toys = malloc(sizeof(new_toy));

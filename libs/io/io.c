@@ -31,17 +31,18 @@ char* read_data_chunks(void) {
         free(str);
         return NULL;
     }
-    strcat(str, buffer);
+    snprintf(str, bytes_read * sizeof(char) + 1, "%s", buffer);
     while (bytes_read == CHUNK_SIZE) {
         bytes_read = read_chunk(buffer);
-        char* tmp = realloc(str, (strlen(str) + bytes_read) * sizeof(char));
+        char* tmp = realloc(str, sizeof(str) + bytes_read * sizeof(char));
         if (!tmp) {
             free(tmp);
             free(str);
             return NULL;
         }
         str = tmp;
-        strcat(str, buffer);
+        snprintf(str + strlen(str), sizeof(str) + bytes_read * sizeof(char) + 1, "%s", buffer);
+        // strcat(str, buffer);
     }
     return str;
 }

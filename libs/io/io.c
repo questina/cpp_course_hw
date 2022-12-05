@@ -8,23 +8,22 @@
 unsigned int CHUNK_SIZE = 4;
 
 unsigned int read_chunk(char* buffer) {
-    char c = getchar();
+    int c = getchar();
     unsigned int i = 0;
-    while ((i < CHUNK_SIZE - 1) && (c != '\n') && (c != EOF)) {
-        buffer[i] = c;
+    while ((i < CHUNK_SIZE - 1) && (c != '\n') && (c != -1)) {
+        buffer[i] = (char) c;
         i += 1;
         c = getchar();
     }
-    if ((c == '\n') || (c == EOF)) {
+    if ((c == '\n') || (c == -1)) {
         buffer[i] = '\0';
         return i;
     }
-    buffer[i] = c;
+    buffer[i] = (char) c;
     return i + 1;
 }
 
 char* read_data_chunks(void) {
-    fflush(stdin);
     char buffer[CHUNK_SIZE];
     unsigned int bytes_read = read_chunk(buffer);
     char* str = malloc(bytes_read * sizeof(char));
@@ -35,11 +34,13 @@ char* read_data_chunks(void) {
     strcat(str, buffer);
     while (bytes_read == CHUNK_SIZE) {
         bytes_read = read_chunk(buffer);
-        str = realloc(str, (strlen(str) + bytes_read) * sizeof(char));
-        if (!str) {
+        char* tmp = realloc(str, (strlen(str) + bytes_read) * sizeof(char));
+        if (!tmp) {
+            free(tmp);
             free(str);
             return NULL;
         }
+        str = tmp;
         strcat(str, buffer);
     }
     return str;
@@ -48,8 +49,7 @@ char* read_data_chunks(void) {
 struct status read_data(struct toy_array *store) {
     struct status add_res;
     printf("How many toys to insert in store: ");
-    int store_size = 0;
-    scanf("%d", &store_size);
+    int store_size = strtol(read_data_chunks(), NULL, 10);
     for (int i = 0; i < store_size; i++) {
         printf("Insert toy name: ");
         char* name = read_data_chunks();
@@ -57,9 +57,9 @@ struct status read_data(struct toy_array *store) {
             init_message(&add_res, "Could not allocate memory for toy name", -1);
             return add_res;
         }
-        double price = 0;
+        double price;
         printf("Insert toy price: ");
-        scanf("%lf", &price);
+        price = strtol(read_data_chunks(), NULL, 10);
         printf("Insert toy country: ");
         char* country = read_data_chunks();
         if (country == NULL) {
@@ -68,9 +68,9 @@ struct status read_data(struct toy_array *store) {
             init_message(&add_res, "Could not allocate memory for toy country", -1);
             return add_res;
         }
-        int amount = 0;
+        int amount;
         printf("Insert toys amount: ");
-        scanf("%d", &amount);
+        amount = strtol(read_data_chunks(), NULL, 10);
         add_res = add_toy(store, name, price, country, amount);
         if (add_res.status_code == -1){
             return add_res;

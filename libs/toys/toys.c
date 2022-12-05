@@ -63,19 +63,3 @@ struct toys_with_status find_toys_spec_by_country(const struct toy_array store,
     init_message(&mes.st, "Success", 0);
     return mes;
 }
-
-struct toy_array init_data(void) {
-    struct toy_array store = {0, NULL};
-    struct status add_res;
-    add_res = add_toy(&store, "Teddybear", 89.99, "USA", 50);
-    process_message(add_res);
-    add_res = add_toy(&store, "Puzzle", 12.99, "Russia", 200);
-    process_message(add_res);
-    add_res = add_toy(&store, "HelloKitty", 35.5, "USA", 10000);
-    process_message(add_res);
-    add_res = add_toy(&store, "NinjaTurtle", 74.2, "China", 3);
-    process_message(add_res);
-    add_res = add_toy(&store, "Doggy", 58, "China", 45);
-    process_message(add_res);
-    return store;
-}

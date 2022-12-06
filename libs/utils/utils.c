@@ -34,7 +34,6 @@ char* read_data_chunks(FILE *input) {
     }
     char* str = malloc((bytes_read + 1) * sizeof(char));
     if (str == NULL) {
-        free_mem(str);
         return NULL;
     }
     snprintf(str, (bytes_read + 1) * sizeof(char), "%s", buffer);
@@ -43,7 +42,6 @@ char* read_data_chunks(FILE *input) {
         bytes_read = read_chunk(buffer, input);
         tmp = realloc(str, (strlen(str) + bytes_read + 1) * sizeof(char));
         if (!tmp) {
-            free_mem(tmp);
             free_mem(str);
             return NULL;
         }

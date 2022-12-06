@@ -1,6 +1,14 @@
-1
+3
 TeddyBear
 100.99
 USA
 100101001
+Doll
+1010.120
+Russia
+1
+Lollypop
+10.5
+Russia
+100
 USA

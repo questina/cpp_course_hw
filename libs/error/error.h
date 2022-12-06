@@ -1,7 +1,8 @@
-#ifndef LIBS_ERROR_ERROR_H_
-#define LIBS_ERROR_ERROR_H_
+#ifndef _LIBS_ERROR_ERROR_H_
+#define _LIBS_ERROR_ERROR_H_
 
 #include "../toys/toys.h"
+#include <stdio.h>
 
 struct status {
     const char* message;
@@ -16,7 +17,7 @@ struct toys_with_status {
 
 void init_message(struct status *mes, const char* str_mes, int status_code);
 
-void process_message(struct status mes);
+void process_message(struct status mes, FILE* input_stream);
 
 
-#endif  // LIBS_ERROR_ERROR_H_
+#endif  // _LIBS_ERROR_ERROR_H_

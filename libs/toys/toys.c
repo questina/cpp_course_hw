@@ -1,6 +1,7 @@
 #include "toys.h"
 #include "../error/error.h"
-#include "../io/io.h"
+#include "../manage_data/manage_data.h"
+#include "../utils/utils.h"
 #include <stdlib.h>
 #include <string.h>
 #include <stdio.h>
@@ -12,42 +13,47 @@ struct status add_toy(struct toy_array *store, char *toy_name, double toy_price,
     if (store == NULL) {
         init_message(&mes, "Incorrect store passed", -1);
         return mes;
-    } else {
-        struct toy new_toy;
-        new_toy.name = malloc(strlen(toy_name) * sizeof(char) + 1);
-        snprintf(new_toy.name, strlen(toy_name) * sizeof(char) + 1, "%s", toy_name);
-        // strcpy(new_toy.name, toy_name);
-        new_toy.price = toy_price;
-        new_toy.country = malloc(strlen(toy_country) * sizeof(char) + 1);
-        snprintf(new_toy.country, strlen(toy_country) * sizeof(char) + 1, "%s", toy_country);
-        // strcpy(new_toy.country, toy_country);
-        new_toy.amount = toy_amount;
-        if (store->toys == NULL) {
-            store->toys = malloc(sizeof(new_toy));
-            if (!store->toys) {
-                free(new_toy.name);
-                free(new_toy.country);
-                free_data(store);
-                init_message(&mes, "Cannot allocate memory for store", -1);
-                return mes;
-            }
-            store->toys[0] = new_toy;
-            store->size += 1;
-        } else {
-            struct toy *tmp_store = NULL;
-            tmp_store =
-                    realloc(store->toys, (store->size + 1) * sizeof(new_toy));
-            if (!tmp_store) {
-                free(new_toy.country);
-                free(new_toy.name);
-                free(tmp_store);
-                init_message(&mes, "Cannot reallocate memory for store", -1);
-                return mes;
-            }
-            store->toys = tmp_store;
-            store->toys[store->size] = new_toy;
-            store->size += 1;
+    }
+    if (toy_name == NULL) {
+        init_message(&mes, "Incorrect toy name passed", -1);
+        return mes;
+    }
+    if (toy_country == NULL) {
+        init_message(&mes, "Incorrect toy country passed", -1);
+        return mes;
+    }
+    struct toy new_toy;
+    new_toy.name = malloc(strlen(toy_name) * sizeof(char) + 1);
+    snprintf(new_toy.name, strlen(toy_name) * sizeof(char) + 1, "%s", toy_name);
+    new_toy.country = malloc(strlen(toy_country) * sizeof(char) + 1);
+    snprintf(new_toy.country, strlen(toy_country) * sizeof(char) + 1, "%s", toy_country);
+    new_toy.price = toy_price;
+    new_toy.amount = toy_amount;
+    if (store->toys == NULL) {
+        store->toys = malloc(sizeof(new_toy));
+        if (!store->toys) {
+            free_mem(new_toy.name);
+            free_mem(new_toy.country);
+            free_data(store);
+            init_message(&mes, "Cannot allocate memory for store", -1);
+            return mes;
         }
+        store->toys[0] = new_toy;
+        store->size += 1;
+    } else {
+        struct toy *tmp_store = NULL;
+        tmp_store =
+                realloc(store->toys, (store->size + 1) * sizeof(new_toy));
+        if (!tmp_store) {
+            free_mem(new_toy.country);
+            free_mem(new_toy.name);
+            free(tmp_store);
+            init_message(&mes, "Cannot reallocate memory for store", -1);
+            return mes;
+        }
+        store->toys = tmp_store;
+        store->toys[store->size] = new_toy;
+        store->size += 1;
     }
     init_message(&mes, "Success", 0);
     return mes;

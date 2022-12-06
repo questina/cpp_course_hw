@@ -6,8 +6,8 @@ void init_message(struct status* mes, const char* str_mes, int status_code) {
     mes->status_code = status_code;
 }
 
-void process_message(struct status mes) {
+void process_message(struct status mes, FILE* input_stream) {
     if (mes.status_code == -1) {
-        fprintf(stderr, "%s", mes.message);
+        fprintf(input_stream, "%s", mes.message);
     }
 }

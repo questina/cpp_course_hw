@@ -1,5 +1,5 @@
-#ifndef _LIBS_MANAGE_DATA_MANAGE_DATA_H_
-#define _LIBS_MANAGE_DATA_MANAGE_DATA_H_
+#ifndef LIBS_MANAGE_DATA_MANAGE_DATA_H_
+#define LIBS_MANAGE_DATA_MANAGE_DATA_H_
 
 #include "../toys/toys.h"
 #include "stdio.h"
@@ -10,4 +10,4 @@ void write_data(struct toy_array store, FILE *output_stream);
 
 void free_data(struct toy_array* store);
 
-#endif  // _LIBS_MANAGE_DATA_MANAGE_DATA_H_
+#endif  // LIBS_MANAGE_DATA_MANAGE_DATA_H_

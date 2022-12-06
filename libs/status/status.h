@@ -1,5 +1,5 @@
-#ifndef _LIBS_STATUS_STATUS_H_
-#define _LIBS_STATUS_STATUS_H_
+#ifndef LIBS_STATUS_STATUS_H_
+#define LIBS_STATUS_STATUS_H_
 
 #include "../toys/toys.h"
 #include <stdio.h>
@@ -19,4 +19,4 @@ void init_message(struct status *mes, const char* str_mes, int status_code);
 void process_message(struct status mes, FILE* input_stream);
 
 
-#endif  // _LIBS_STATUS_STATUS_H_
+#endif  // LIBS_STATUS_STATUS_H_

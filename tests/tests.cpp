@@ -1,11 +1,10 @@
 #include <gtest/gtest.h>
 #include <string>
-#include <iostream>
 #include <fstream>
 
 extern "C" {
 #include "../libs/toys/toys.h"
-#include "../libs/error/error.h"
+#include "../libs/status/status.h"
 #include "../libs/manage_data/manage_data.h"
 }
 

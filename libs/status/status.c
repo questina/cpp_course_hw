@@ -1,4 +1,4 @@
-#include "error.h"
+#include "status.h"
 #include <stdio.h>
 
 void init_message(struct status* mes, const char* str_mes, int status_code) {

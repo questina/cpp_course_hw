@@ -2,6 +2,7 @@
 #include "libs/toys/toys.h"
 #include "libs/error/error.h"
 #include "libs/io/io.h"
+#include <stdlib.h>
 
 // Вариант #7
 // Создать структуру для хранения позиций каталога магазина детских игрушек:
@@ -26,6 +27,7 @@ int main(void) {
     char *country = read_data_chunks();
     toys_with_st = find_toys_spec_by_country(store, country);
     printf("%s\n", mes.message);
+    free(country);
     write_data(toys_with_st.toys);
     free_data(&toys_with_st.toys);
     free_data(&store);

@@ -1,5 +1,5 @@
 TARGET = main
-LIB_DIR = toys_lib
+LIB_DIR = libs
 TEST_DIR = tests
 SOURCE_FILES = main.c \
 			   libs/*/*.c
@@ -38,7 +38,7 @@ check-valgrind:
 	echo "Run valgrind"
 	cmake -DCMAKE_BUILD_TYPE=Debug -S ./ -B ./${BUILD_FILE}
 	cmake --build ./${BUILD_FILE} --target ${MAIN_PROJECT_NAME}
-	valgrind --tool=memcheck --leak-check=yes --exit-on-first-error=yes --error-exitcode=1 ./${BUILD_FILE}/${MAIN_PROJECT_NAME}
+	valgrind --tool=memcheck --leak-check=yes --exit-on-first-error=yes --error-exitcode=1 ./${BUILD_FILE}/${MAIN_PROJECT_NAME} < ${INPUT_FILE}
 
 check-stat-analysis:
 	echo "Run static analysis cppcheck and cpplint"
@@ -47,7 +47,7 @@ check-stat-analysis:
 
 check-linters:
 	echo "Running linter clang-tidy"
-	clang-tidy ${SOURCE_FILES} ${HEADER_FILES} --fix-errors -extra-arg=-std=c99 --
+	clang-tidy ${SOURCE_FILES} ${HEADER_FILES} --fix-errors -warnings-as-errors=* -extra-arg=-std=c99 --
 
 test: test-with-valgrind test-with-coverage clean
 

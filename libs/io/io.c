@@ -5,6 +5,7 @@
 #include <stdlib.h>
 #include <string.h>
 
+
 unsigned int CHUNK_SIZE = 4;
 
 unsigned int read_chunk(char* buffer) {
@@ -20,6 +21,7 @@ unsigned int read_chunk(char* buffer) {
         return i;
     }
     buffer[i] = (char) c;
+    buffer[i + 1] = '\0';
     return i + 1;
 }
 
@@ -29,22 +31,24 @@ char* read_data_chunks(void) {
     if (bytes_read == 0) {
         return NULL;
     }
-    char* str = malloc(bytes_read * sizeof(char));
-    if (!str) {
+    char* str = malloc((bytes_read + 1) * sizeof(char));
+    if (str == NULL) {
         free(str);
         return NULL;
     }
-    snprintf(str, bytes_read * sizeof(char) + 1, "%s", buffer);
+    snprintf(str, (bytes_read + 1) * sizeof(char), "%s", buffer);
+    str[strlen(str)] = '\0';
+    char* tmp = NULL;
     while (bytes_read == CHUNK_SIZE) {
         bytes_read = read_chunk(buffer);
-        char* tmp = realloc(str, sizeof(str) + bytes_read * sizeof(char) + 1);
+        tmp = realloc(str, (strlen(str) + bytes_read + 1) * sizeof(char));
         if (!tmp) {
             free(tmp);
             free(str);
             return NULL;
         }
         str = tmp;
-        snprintf(str + strlen(str), sizeof(str) + bytes_read * sizeof(char) + 1, "%s", buffer);
+        snprintf(str + strlen(str), (bytes_read + 1) * sizeof(char), "%s", buffer);
         // strcat(str, buffer);
     }
     return str;
@@ -67,19 +71,22 @@ struct status read_data(struct toy_array *store) {
         double price;
         printf("Insert toy price: ");
         tmp = read_data_chunks();
-        price = strtol(tmp, NULL, 10);
+        price = strtod(tmp, NULL);
         free(tmp);
         printf("Insert toy country: ");
         char* country = read_data_chunks();
         if (country == NULL) {
             free(name);
+            free(country);
             name = NULL;
             init_message(&add_res, "Could not allocate memory for toy country", -1);
             return add_res;
         }
         int amount;
         printf("Insert toys amount: ");
-        amount = strtol(read_data_chunks(), NULL, 10);
+        tmp = read_data_chunks();
+        amount = strtol(tmp, NULL, 10);
+        free(tmp);
         add_res = add_toy(store, name, price, country, amount);
         if (add_res.status_code == -1) {
             return add_res;

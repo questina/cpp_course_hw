@@ -1,5 +1,5 @@
-#ifndef LIBS_IO_IO_H_
-#define LIBS_IO_IO_H_
+#ifndef _LIBS_IO_IO_H_
+#define _LIBS_IO_IO_H_
 
 #include "../toys/toys.h"
 
@@ -11,4 +11,4 @@ char* read_data_chunks(void);
 
 void free_data(struct toy_array* store);
 
-#endif  // LIBS_IO_IO_H_
+#endif  // _LIBS_IO_IO_H_

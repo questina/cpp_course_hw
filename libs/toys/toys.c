@@ -7,7 +7,7 @@
 
 
 struct status add_toy(struct toy_array *store, char *toy_name, double toy_price,
-        char *toy_country, int toy_amount) {
+        char *toy_country, unsigned long long toy_amount) {
     struct status mes;
     if (store == NULL) {
         init_message(&mes, "Incorrect store passed", -1);

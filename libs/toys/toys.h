@@ -5,7 +5,7 @@ struct toy {
   char *name;
   double price;
   char *country;
-  int amount;
+  unsigned long long amount;
 };
 
 struct toy_array {
@@ -14,7 +14,7 @@ struct toy_array {
 };
 
 struct status add_toy(struct toy_array *store, char *toy_name, double toy_price,
-            char *toy_country, int toy_amount);
+            char *toy_country, unsigned long long toy_amount);
 
 struct toys_with_status find_toys_spec_by_country(struct toy_array store,
         const char *toy_country);

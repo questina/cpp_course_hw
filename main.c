@@ -12,19 +12,22 @@
 // Составить с ее использованием программу определения наличия игрушек,
 // произведенных в интересующей пользователя стране.
 
-int main(void) {
+int main(int argc, char **argv) {
+    FILE *stream;
+    if (argc == 1) {
+        stream = stdin;
+    } else {
+        stream = fopen(argv[0], "r");
+    }
+    printf("%d", argc);
     struct status mes;
     struct toy_array store = {0, NULL};
-    mes = read_data(&store);
+    mes = read_data(&store, stream);
     process_message(mes);
-    if (store.toys == NULL) {
-        fprintf(stderr, "Error in init_data");
-        return 1;
-    }
     write_data(store);
     struct toys_with_status toys_with_st;
     printf("What country do you want to search? ");
-    char *country = read_data_chunks();
+    char *country = read_data_chunks(stream);
     toys_with_st = find_toys_spec_by_country(store, country);
     printf("%s\n", mes.message);
     free(country);

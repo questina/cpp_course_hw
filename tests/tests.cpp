@@ -23,6 +23,29 @@ TEST(TOYS_CATALOG, TEST_ADD_TOY) {
     EXPECT_EQ(st.status_code, -1);
 }
 
+TEST(TOYS_CATALOG, TEST_READ_DATA) {
+    FILE *f = fopen("tmp.txt", "w+");
+    fprintf(f, "1\n");
+    fprintf(f, "TeddyBear\n");
+    fprintf(f, "10000\n");
+    fprintf(f, "USA\n");
+    fprintf(f, "100110010111010\n");
+    fclose(f);
+    f = fopen("tmp.txt", "r");
+    struct toy_array toy_store = {0, NULL};
+    struct status st{};
+    st = read_data(&toy_store, f);
+    fclose(f);
+    EXPECT_EQ(st.status_code, 0);
+    EXPECT_STREQ(st.message, "Success");
+    EXPECT_EQ(toy_store.size, 1);
+    EXPECT_STREQ(toy_store.toys[0].name, "TeddyBear");
+    EXPECT_FLOAT_EQ(toy_store.toys[0].price, 10000);
+    EXPECT_STREQ(toy_store.toys[0].country, "USA");
+    EXPECT_EQ(toy_store.toys[0].amount, 100110010111010);
+    free_data(&toy_store);
+}
+
 TEST(TOYS_CATALOG, TEST_FIND_CORRECT_COUNTRY ){
     struct toy_array toy_store = {0, NULL};
     struct status st;

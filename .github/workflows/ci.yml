@@ -1,0 +1,30 @@
+on: push
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    container:
+      image: questina/c_infrastructure:firsttry
+      options: --user 1001
+    steps:
+      - uses: actions/checkout@v2
+      - run: make check
+  run:
+    runs-on: ubuntu-latest
+    container:
+      image: questina/c_infrastructure:firsttry
+      options: --user 1001
+    needs: [check]
+    steps:
+      - uses: actions/checkout@v2
+      - run: make build_and_run
+
+  test:
+    runs-on: ubuntu-latest
+    container:
+      image: questina/c_infrastructure:firsttry
+      options: --user 1001
+    needs: [run]
+    steps:
+      - uses: actions/checkout@v2
+      - run: make test

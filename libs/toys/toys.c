@@ -38,6 +38,8 @@ struct status add_toy(struct toy_array *store, char *toy_name, double toy_price,
             tmp_store =
                     realloc(store->toys, (store->size + 1) * sizeof(new_toy));
             if (!tmp_store) {
+                free(new_toy.country);
+                free(new_toy.name);
                 free(tmp_store);
                 init_message(&mes, "Cannot reallocate memory for store", -1);
                 return mes;

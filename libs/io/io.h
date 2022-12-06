@@ -1,6 +1,8 @@
 #ifndef LIBS_IO_IO_H_
 #define LIBS_IO_IO_H_
 
+#include "../toys/toys.h"
+
 struct status read_data(struct toy_array *store);
 
 void write_data(struct toy_array store);

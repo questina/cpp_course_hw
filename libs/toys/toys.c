@@ -15,16 +15,18 @@ struct status add_toy(struct toy_array *store, char *toy_name, double toy_price,
     } else {
         struct toy new_toy;
         new_toy.name = malloc(strlen(toy_name) * sizeof(char));
-        snprintf(new_toy.name, sizeof(toy_name) + 1, "%s", toy_name);
+        snprintf(new_toy.name, strlen(toy_name) * sizeof(char) + 1, "%s", toy_name);
         // strcpy(new_toy.name, toy_name);
         new_toy.price = toy_price;
         new_toy.country = malloc(strlen(toy_country) * sizeof(char));
-        snprintf(new_toy.country, sizeof(toy_country) + 1, "%s", toy_country);
+        snprintf(new_toy.country, strlen(toy_country) * sizeof(char) + 1, "%s", toy_country);
         // strcpy(new_toy.country, toy_country);
         new_toy.amount = toy_amount;
         if (store->toys == NULL) {
             store->toys = malloc(sizeof(new_toy));
             if (!store->toys) {
+                free(new_toy.name);
+                free(new_toy.country);
                 free_data(store);
                 init_message(&mes, "Cannot allocate memory for store", -1);
                 return mes;

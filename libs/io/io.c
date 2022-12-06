@@ -37,7 +37,7 @@ char* read_data_chunks(void) {
     snprintf(str, bytes_read * sizeof(char) + 1, "%s", buffer);
     while (bytes_read == CHUNK_SIZE) {
         bytes_read = read_chunk(buffer);
-        char* tmp = realloc(str, sizeof(str) + bytes_read * sizeof(char));
+        char* tmp = realloc(str, sizeof(str) + bytes_read * sizeof(char) + 1);
         if (!tmp) {
             free(tmp);
             free(str);
@@ -53,7 +53,10 @@ char* read_data_chunks(void) {
 struct status read_data(struct toy_array *store) {
     struct status add_res;
     printf("How many toys to insert in store: ");
-    int store_size = strtol(read_data_chunks(), NULL, 10);
+    char *tmp = read_data_chunks();
+    int store_size = strtol(tmp, NULL, 10);
+    free(tmp);
+    tmp = NULL;
     for (int i = 0; i < store_size; i++) {
         printf("Insert toy name: ");
         char* name = read_data_chunks();
@@ -63,7 +66,9 @@ struct status read_data(struct toy_array *store) {
         }
         double price;
         printf("Insert toy price: ");
-        price = strtol(read_data_chunks(), NULL, 10);
+        tmp = read_data_chunks();
+        price = strtol(tmp, NULL, 10);
+        free(tmp);
         printf("Insert toy country: ");
         char* country = read_data_chunks();
         if (country == NULL) {

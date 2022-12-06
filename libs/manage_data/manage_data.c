@@ -15,7 +15,12 @@ struct status read_data(struct toy_array *store, FILE *input_stream) {
         init_message(&add_res, "Could not read store_size", -1);
         return add_res;
     }
-    int store_size = strtol(tmp, NULL, 10);
+    long int store_size = strtol(tmp, NULL, 10);
+    if (store_size == 0) {
+        init_message(&add_res, "No toys to read", -1);
+        return add_res;
+    }
+    printf("%ld", store_size);
     free_mem(tmp);
     for (int i = 0; i < store_size; i++) {
         printf("Insert toy name: ");
@@ -33,6 +38,11 @@ struct status read_data(struct toy_array *store, FILE *input_stream) {
             return add_res;
         }
         price = strtod(tmp, NULL);
+        if (price == 0.0) {
+            free_mem(name);
+            init_message(&add_res, "Incorrect price", -1);
+            return add_res;
+        }
         free_mem(tmp);
         printf("Insert toy country: ");
         char* country = read_data_chunks(input_stream);
@@ -53,6 +63,12 @@ struct status read_data(struct toy_array *store, FILE *input_stream) {
             return add_res;
         }
         amount = strtoll(tmp, NULL, 10);
+        if (amount == 0) {
+            free_mem(name);
+            free_mem(country);
+            init_message(&add_res, "Incorrect amount", -1);
+            return add_res;
+        }
         free_mem(tmp);
         add_res = add_toy(store, name, price, country, amount);
         free_mem(name);

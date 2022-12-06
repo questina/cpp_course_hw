@@ -20,7 +20,7 @@ clean:
 build_and_run: build run clean
 
 build:
-	cmake -DCMAKE_BUILD_TYPE=Debug SANITIZER_BUILD=ON -S ./ -B ./${BUILD_FILE}
+	cmake -DCMAKE_BUILD_TYPE=Debug -S ./ -B ./${BUILD_FILE}
 	cmake --build ./${BUILD_FILE} --target ${MAIN_PROJECT_NAME}
 
 run:

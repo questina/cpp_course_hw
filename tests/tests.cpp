@@ -167,7 +167,7 @@ TEST(TOYS_CATALOG, TEST_PROCESS_MESSAGE) {
     EXPECT_EQ(res_str, correct_str);
 }
 
-TEST(TOYS_CATALOG, INCORRECT_INPUT) {
+TEST(TOYS_CATALOG, ADD_INCORRECT_INPUT) {
     FILE *f = fopen("tmp.txt", "w+");
     fclose(f);
     f = fopen("tmp.txt", "r");
@@ -219,6 +219,45 @@ TEST(TOYS_CATALOG, INCORRECT_INPUT) {
     fclose(f);
     EXPECT_EQ(st.status_code, -1);
     EXPECT_STREQ(st.message, "Could not read toys amount");
+    EXPECT_EQ(toy_store.size, 0);
+    free_data(&toy_store);
+}
+
+TEST(TOYS_CATALOG, ADD_INPUT_STRING_NOT_NUM) {
+    FILE *f = fopen("tmp.txt", "w+");
+    fprintf(f, "abc\n");
+    fclose(f);
+    f = fopen("tmp.txt", "r");
+    struct toy_array toy_store = {0, nullptr};
+    struct status st{};
+    st = read_data(&toy_store, f);
+    fclose(f);
+    EXPECT_EQ(st.status_code, -1);
+    EXPECT_STREQ(st.message, "No toys to read");
+    EXPECT_EQ(toy_store.size, 0);
+    f = fopen("tmp.txt", "w+");
+    fprintf(f, "1\n");
+    fprintf(f, "Teddybear\n");
+    fprintf(f, "abc\n");
+    fclose(f);
+    f = fopen("tmp.txt", "r");
+    st = read_data(&toy_store, f);
+    fclose(f);
+    EXPECT_EQ(st.status_code, -1);
+    EXPECT_STREQ(st.message, "Incorrect price");
+    EXPECT_EQ(toy_store.size, 0);
+    f = fopen("tmp.txt", "w+");
+    fprintf(f, "1\n");
+    fprintf(f, "Teddybear\n");
+    fprintf(f, "100\n");
+    fprintf(f, "USA\n");
+    fprintf(f, "abc\n");
+    fclose(f);
+    f = fopen("tmp.txt", "r");
+    st = read_data(&toy_store, f);
+    fclose(f);
+    EXPECT_EQ(st.status_code, -1);
+    EXPECT_STREQ(st.message, "Incorrect amount");
     EXPECT_EQ(toy_store.size, 0);
     free_data(&toy_store);
 }

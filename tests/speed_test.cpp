@@ -1,4 +1,4 @@
-#include "Set.hpp"
+#include "../include/Set.hpp"
 #include <set>
 #include <vector>
 #include <gtest/gtest.h>
@@ -8,6 +8,7 @@
 
 void speed_test(void (* custom_func) (Set<int>& s, int elem),
                 void (* std_func) (std::set<int>& s, int elem)) {
+    std::cout << "TEST" << std::endl;
     std::vector<int> elems(ELEMENTS_NUM);
     srand(42);
     for (int i = 0; i < ELEMENTS_NUM; i++) {

@@ -1,10 +1,8 @@
-cmake_minimum_required(VERSION 3.16.3)
-project(test_set)
-
-file(GLOB SOURCES "speed_test.cpp")
-
-find_package(GTest REQUIRED)
-
-add_executable(${PROJECT_NAME} ${SOURCES} ${SETLIB_HEADERS})
-target_include_directories(${PROJECT_NAME} PUBLIC ${SETLIB_INCLUDE_DIRS})
-target_link_libraries(${PROJECT_NAME} GTest::GTest gtest_main pthread)
+add_dependencies(tests test)
+add_dependencies(tests test_speed)
+add_dependencies(tests test_unit)
+add_executable(test speed_test.cpp)
+add_executable(test_speed base_test.cpp)
+add_executable(test_unit unit_test.cpp)
+target_link_libraries(test PUBLIC gtest gtest_main pthread)
+target_link_libraries(test_unit PUBLIC gtest gtest_main pthread)

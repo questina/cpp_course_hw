@@ -143,6 +143,35 @@ TEST(unit_test, iterator) {
         i -= 1;
         it--;
     }
+
+    i = 0;
+    auto s_begin = s.begin();
+    for(; s_begin != s.end(); ++s_begin) {
+        EXPECT_EQ(*s_begin, i);
+        i += 1;
+    }
+}
+
+TEST(unit_test, reverse_iterator) {
+    int insert_num = 10;
+    Set<int> s;
+    for (int i = 0; i < insert_num; i++) {
+        s.insert(i);
+    }
+    int i = insert_num - 1;
+    auto s_end = s.end();
+    s_end--;
+    for (; s_end != s.begin(); s_end--) {
+        EXPECT_EQ(*s_end, i);
+        i -= 1;
+    }
+    i = insert_num - 1;
+    s_end = s.end();
+    --s_end;
+    for(; s_end != s.begin(); --s_end) {
+        EXPECT_EQ(*s_end, i);
+        i -= 1;
+    }
 }
 
 TEST(unit_test, set_clean) {

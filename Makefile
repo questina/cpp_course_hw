@@ -31,7 +31,7 @@ unit_tests:
 	cmake --build ./${BUILD_FILE} --target ${UNIT_TEST}
 	./${BUILD_FILE}/${TEST_DIR}/${UNIT_TEST}/${UNIT_TEST}
 	lcov -t "tests/unit_test" -o coverage.info -c -d ./${BUILD_FILE}/${TEST_DIR}/${UNIT_TEST}/
-	lcov --remove coverage.info '/usr/include/*' '/usr/local/include/c++/*' '/project/tests/unit_test/unit_test.cpp' -o coverage.info
+	lcov --remove coverage.info '/usr/include/*' '/usr/local/include/c++/*' '/project/tests/unit_test/unit_test.cpp' 'tests/unit_test/unit_test.cpp' -o coverage.info
 	genhtml -o report coverage.info
 
 speed_tests:

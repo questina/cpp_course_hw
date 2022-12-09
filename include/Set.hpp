@@ -381,6 +381,9 @@ public:
     }
 
     Set<T>& operator=(const Set<T>& other) {
+        if (this == &other) {
+            return *this;
+        }
         clean();
         root = deep_copy_(other.root);
         tree_size = other.tree_size;

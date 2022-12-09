@@ -15,7 +15,6 @@ jobs:
     container:
       image: questina/c_infrastructure:firsttry
       options: --user 1001
-    needs: [run]
     steps:
       - uses: actions/checkout@v2
       - run: make tests

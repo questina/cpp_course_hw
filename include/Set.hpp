@@ -3,6 +3,7 @@
 #include <initializer_list>
 #include <algorithm>
 #include <cmath>
+#include <iostream>
 
 template<typename T>
 class Set {
@@ -200,7 +201,6 @@ private:
         new_node->left = deep_copy_(node->left);
         new_node->right = deep_copy_(node->right);
         fix(new_node);
-        new_node->parent = nullptr;
         return new_node;
     }
 
@@ -220,24 +220,14 @@ public:
         const Node* cur_elem;
         bool end;
     public:
-        SetIterator(const Set<T>* s= nullptr, const Node* cur_elem= nullptr, bool end=false) {
+        SetIterator(const Set<T>* s=nullptr, const Node* cur_elem=nullptr, bool end=false) {
             this->s = s;
             this->cur_elem = cur_elem;
             this->end = end;
         }
 
-        const T& operator*() const {
-            return cur_elem->val;
-        }
-
         bool operator!=(const SetIterator& other) const {
-            if (s->root != other.s->root) {
-                return true;
-            }
-            if (end != other.end) {
-                return true;
-            }
-            if (cur_elem != other.cur_elem) {
+            if ((s->root != other.s->root) || (end != other.end) || (cur_elem != other.cur_elem)) {
                 return true;
             }
             return false;
@@ -249,7 +239,7 @@ public:
 
         SetIterator& operator++() {
             if (end) {
-                throw new std::exception();
+                throw std::exception();
             }
             if (s->root->most_right == cur_elem) {
                 end = true;
@@ -272,22 +262,27 @@ public:
 
         SetIterator operator++(int) {
             if (end) {
-                throw new std::exception();
+                throw std::exception();
             }
             auto old_s = SetIterator(s, cur_elem, end);
             if (s->root->most_right == cur_elem) {
+                std::cout << "most_right" << std::endl;
                 end = true;
                 cur_elem = nullptr;
                 return *this;
             }
             if (cur_elem->right) {
+                std::cout << "right" << std::endl;
                 cur_elem = cur_elem->right;
                 while (cur_elem->left) {
+                    std::cout << "right and left" << std::endl;
                     cur_elem = cur_elem->left;
                 }
                 return old_s;
             }
+            std::cout << "other" << std::endl;
             while (cur_elem->parent->right == cur_elem) {
+                std::cout << "parent" << std::endl;
                 cur_elem = cur_elem->parent;
             }
             cur_elem = cur_elem->parent;
@@ -296,7 +291,7 @@ public:
 
         SetIterator& operator--() {
             if (s->root->most_left == cur_elem) {
-                throw new std::exception();
+                throw std::exception();
             }
             if (end) {
                 end = false;
@@ -319,7 +314,7 @@ public:
 
         SetIterator operator--(int) {
             if (s->root->most_left == cur_elem) {
-                throw new std::exception();
+                throw std::exception();
             }
             auto old_s = SetIterator(s, cur_elem, end);
             if (end) {
@@ -350,11 +345,9 @@ public:
         }
 
         SetIterator& operator=(const SetIterator& other) {
-            if (this != &other) {
-                s = other.s;
-                cur_elem = other.cur_elem;
-                end = other.end;
-            }
+            s = other.s;
+            cur_elem = other.cur_elem;
+            end = other.end;
             return *this;
         }
     };
@@ -425,12 +418,10 @@ public:
 
     void insert(const T& v) {
         root = insert_(root, v);
-        fix(root);
     }
 
     void erase(const T& v) {
         root = erase_(root, v);
-        fix(root);
     }
 
     size_t size() const {

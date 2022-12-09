@@ -1,9 +1,9 @@
-#include "../include/Set.hpp"
+#include "Set.hpp"
 #include <set>
 #include <vector>
 #include <gtest/gtest.h>
 
-#define ELEMENTS_NUM 10000000
+#define ELEMENTS_NUM 100000
 #define TIME_COEF 1.5
 
 void speed_test(void (* custom_func) (Set<int>& s, int elem),

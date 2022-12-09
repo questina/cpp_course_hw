@@ -1,8 +1,32 @@
-add_dependencies(tests test)
-add_dependencies(tests test_speed)
-add_dependencies(tests test_unit)
-add_executable(test speed_test.cpp)
-add_executable(test_speed base_test.cpp)
-add_executable(test_unit unit_test.cpp)
-target_link_libraries(test PUBLIC gtest gtest_main pthread)
-target_link_libraries(test_unit PUBLIC gtest gtest_main pthread)
+cmake_minimum_required(VERSION 3.14)
+project(test_set)
+
+file(GLOB SOURCES "**/*.cpp")
+
+include(FetchContent)
+
+include_directories(.)
+
+FetchContent_Declare(
+        googletest
+        GIT_REPOSITORY https://github.com/google/googletest.git
+        GIT_TAG main
+)
+
+FetchContent_Declare(
+        googlebenchmark
+        GIT_REPOSITORY https://github.com/google/benchmark.git
+        GIT_TAG v1.5.2
+)
+
+FetchContent_MakeAvailable(
+        googletest
+        googlebenchmark
+)
+
+
+# set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} --coverage -lgcov" )
+
+add_executable(${PROJECT_NAME} ${SOURCES} ${SETLIB_HEADERS})
+target_include_directories(${PROJECT_NAME} PUBLIC ${SETLIB_INCLUDE_DIRS})
+target_link_libraries(${PROJECT_NAME} cpp_course_hw gtest_main)

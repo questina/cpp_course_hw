@@ -1,33 +1,19 @@
-cmake_minimum_required(VERSION 3.16.3)
+cmake_minimum_required(VERSION 3.0.0)
 project(cpp_course_hw)
 
-set(CMAKE_CXX_STANDARD 17)
-set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Wpedantic -Wall -Wextra -Werror")
+set(CMAKE_CXX_STANDARD 14)
+set(CMAKE_CXX_FLAGS ${CMAKE_CXX_FLAGS} "-g --coverage -O0 -Werror -Wall")
 
-include(FetchContent)
+# set(CMAKE_SHARED_LINKER_FLAGS "${CMAKE_SHARED_LINKER_FLAGS} --coverage -shared -lgcov" )
 
-include_directories(.)
+set(SETLIB_INCLUDE_DIRS ${SETLIB_INCLUDE_DIRS} ${CMAKE_HOME_DIRECTORY}/include/)
+set(SETLIB_HEADERS ${SETLIB_HEADERS} ${CMAKE_HOME_DIRECTORY}/include/Set.hpp)
 
-FetchContent_Declare(
-        googletest
-        GIT_REPOSITORY https://github.com/google/googletest.git
-        GIT_TAG main
-)
+add_library(${PROJECT_NAME} STATIC ${SETLIB_HEADERS})
+set_target_properties(cpp_course_hw PROPERTIES LINKER_LANGUAGE CXX)
+target_include_directories(${PROJECT_NAME} PUBLIC ${SETLIB_INCLUDE_DIRS})
 
-FetchContent_Declare(
-        googlebenchmark
-        GIT_REPOSITORY https://github.com/google/benchmark.git
-        GIT_TAG v1.5.2
-)
-
-FetchContent_MakeAvailable(
-        googletest
-        googlebenchmark
-)
-
-add_executable(${PROJECT_NAME}
-        main.cpp
-        )
-
-add_custom_target(tests)
 add_subdirectory(tests)
+add_subdirectory(tests/base_test)
+add_subdirectory(tests/speed_test)
+add_subdirectory(tests/unit_test)

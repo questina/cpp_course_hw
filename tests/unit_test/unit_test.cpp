@@ -1,4 +1,4 @@
-#include "../include/Set.hpp"
+#include "Set.hpp"
 #include <vector>
 #include <gtest/gtest.h>
 
@@ -8,6 +8,10 @@ TEST(unit_test, test_insert) {
     for (int i = 0; i < insert_num; i++) {
         s.insert(i);
     }
+    for (int i = 0; i < insert_num; i++) {
+        s.insert(i);
+    }
+    EXPECT_EQ(s.size(), insert_num);
     for (int i = 0; i < insert_num; i++) {
         EXPECT_EQ(*s.find(i), i);
     }
@@ -34,6 +38,13 @@ TEST(unit_test, test_erase) {
     for (int i = 0; i < insert_num; i++) {
         s.insert(i);
     }
+    for (int i = insert_num; i < 2 * insert_num; i++) {
+        s.erase(i);
+    }
+    EXPECT_EQ(s.size(), insert_num);
+    s.erase(5); // delete root
+    EXPECT_EQ(s.size(), insert_num - 1);
+    s.insert(5);
     for (int i = 0; i < insert_num; i += 2) {
         s.erase(i);
     }
@@ -45,6 +56,10 @@ TEST(unit_test, test_erase) {
             EXPECT_EQ(*s.find(i), i);
         }
     }
+    for (int i = insert_num - 1; i >= 0; i -= 2) {
+        s.erase(i);
+    }
+    EXPECT_EQ(s.size(), 0);
 }
 
 TEST(unit_test, test_empty) {
@@ -103,6 +118,10 @@ TEST(unit_test, other_set_constructor) {
     for (int i = 0; i < insert_num; i++) {
         EXPECT_EQ(*s.find(i), i);
     }
+    Set<int> s3;
+    Set<int> s4(s3);
+    EXPECT_EQ(s4.size(), 0);
+
 }
 
 TEST(unit_test, iterator) {
@@ -123,5 +142,44 @@ TEST(unit_test, iterator) {
         EXPECT_EQ(*it, i);
         i -= 1;
         it--;
+    }
+}
+
+TEST(unit_test, set_clean) {
+    Set<int> s1{1, 2, 3, 4, 5};
+    s1.clean();
+    EXPECT_EQ(s1.size(), 0);
+    Set<int> s2;
+    s2.clean();
+    EXPECT_EQ(s2.size(), 0);
+}
+
+TEST(unit_test, set_iterator) {
+    Set<int> s{1, 2, 3, 4, 5};
+    Set<int>::iterator it;
+    it = s.begin();
+    EXPECT_EQ(*it, 1);
+    auto begin = s.begin();
+    EXPECT_EQ(*begin, 1);
+    auto end = s.end();
+    end--;
+    while (begin != end) {
+        ++begin;
+        --end;
+    }
+    EXPECT_EQ(*begin, *end);
+    EXPECT_TRUE(begin == end);
+}
+
+TEST(unit_test, assign_operator) {
+    Set<int> s{1, 2, 3};
+    Set<int> other = s;
+    EXPECT_EQ(s.size(), other.size());
+    auto other_beg = other.begin();
+    auto s_beg = s.begin();
+    while (other_beg != other.end()) {
+        EXPECT_EQ(*other_beg, *s_beg);
+        other_beg++;
+        s_beg++;
     }
 }

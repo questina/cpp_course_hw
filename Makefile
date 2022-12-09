@@ -15,7 +15,7 @@ clean:
 	rm -rf ${BUILD_FILE}
 	rm -f *.out
 	rm -f coverage.info
-	rm -f report
+	rm -rf report
 
 build_main:
 	cmake -DCMAKE_BUILD_TYPE=Debug -S ./ -B ./${BUILD_FILE}

@@ -266,23 +266,18 @@ public:
             }
             auto old_s = SetIterator(s, cur_elem, end);
             if (s->root->most_right == cur_elem) {
-                std::cout << "most_right" << std::endl;
                 end = true;
                 cur_elem = nullptr;
                 return *this;
             }
             if (cur_elem->right) {
-                std::cout << "right" << std::endl;
                 cur_elem = cur_elem->right;
                 while (cur_elem->left) {
-                    std::cout << "right and left" << std::endl;
                     cur_elem = cur_elem->left;
                 }
                 return old_s;
             }
-            std::cout << "other" << std::endl;
             while (cur_elem->parent->right == cur_elem) {
-                std::cout << "parent" << std::endl;
                 cur_elem = cur_elem->parent;
             }
             cur_elem = cur_elem->parent;

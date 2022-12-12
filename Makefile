@@ -10,9 +10,9 @@ HEADER_FILES = ./include/*.hpp
 
 all: check build
 
-build: download_boost build_main clean
+build: build_main clean
 
-tests: download_boost time_tests test-with-coverage clean
+tests: time_tests test-with-coverage clean
 
 clean:
 	rm -rf ${BUILD_FILE}
@@ -22,14 +22,6 @@ clean:
 	rm -f input.txt
 	rm -rf boost_1_80_0
 	rm -f boost_1_80_0.tar.bz2
-
-download_boost:
-	wget https://boostorg.jfrog.io/artifactory/main/release/1.80.0/source/boost_1_80_0.tar.bz2
-	tar xfv boost_1_80_0.tar.bz2
-	cd boost_1_80_0
-	./bootstrap.sh --prefix=./
-	./b2
-	./b2 install
 
 build_main:
 	cmake -DCMAKE_BUILD_TYPE=Debug -S ./ -B ./${BUILD_FILE}
@@ -50,7 +42,7 @@ unit_tests:
 	g++ -std=c++20 ./example/sequential.cpp -o seq.out
 	./${BUILD_FILE}/${TEST_DIR}/${UNIT_TEST}/${UNIT_TEST}
 
-check: download_boost check-stat-analysis check-linters check-sanitizer clean check-valgrind clean
+check: check-stat-analysis check-linters check-sanitizer clean check-valgrind clean
 
 check-sanitizer:
 	echo "Run sanitizer"
@@ -75,7 +67,7 @@ check-stat-analysis:
 
 check-linters:
 	echo "Running linter clang-tidy"
-	clang-tidy ${SOURCE_FILES} ${HEADER_FILES} --fix-errors -warnings-as-errors=* -extra-arg=-std=c99 --
+	clang-tidy ${SOURCE_FILES} ${HEADER_FILES} --fix-errors -warnings-as-errors=* -extra-arg=-std=c++20 --
 
 test-with-coverage:
 	echo "Running tests with coverage"
@@ -84,5 +76,6 @@ test-with-coverage:
 	g++ -std=c++20 ./example/sequential.cpp -o seq.out
 	./${BUILD_FILE}/${TEST_DIR}/${UNIT_TEST}/${UNIT_TEST}
 	lcov -t "tests/unit_test" -o coverage.info -c -d ./${BUILD_FILE}/${TEST_DIR}/${UNIT_TEST}/
+	lcov --remove coverage.info '/usr/include/*' '/usr/local/include/c++/*' '/project/tests/unit_test/unit_test.cpp' 'tests/unit_test/unit_test.cpp' '/project/cmake-build-debug/*' '/include/boost/*' -o coverage.info
 	genhtml -o report coverage.info
 

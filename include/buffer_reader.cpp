@@ -37,7 +37,8 @@ bool BufferedReader::read_from_buffer(std::string* line) {
 
 void BufferedReader::read_in_buffer() {
     std::string cur_line;
-    if (buffer_size == -1) {
+    unsigned int no_buffer_size = -1;
+    if (buffer_size == no_buffer_size) {
         while (std::getline(file, cur_line)) {
             buffer.push_back(cur_line);
         }

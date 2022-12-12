@@ -6,7 +6,7 @@ class BufferedReader {
 private:
     std::ifstream file;
     std::deque<std::string> buffer;
-    int buffer_size = 10000;
+    size_t buffer_size = 10000;
 public:
     BufferedReader() = default;
     explicit BufferedReader(const std::string& filename, int buffer_size=10000);

@@ -1,5 +1,5 @@
 #include <gtest/gtest.h>
-#include "../../include/process_manager.hpp"
+#include "../../include/process_manager.cpp"
 #include <fstream>
 
 #define ELEMENTS_NUM 10000
@@ -206,7 +206,7 @@ TEST(unit_test_parallel, test_deleted) {
     auto input_files = file_manager.divide_file_in_blocks(input_file, buffer_size);
     auto output_files = file_manager.create_tmp_files(input_files.size());
     std::vector<std::string> saved_files;
-    for (int i = 0; i < output_files.size(); i++) {
+    for (unsigned int i = 0; i < output_files.size(); i++) {
         saved_files.push_back(file_manager.get_filename(output_files[i]));
     }
     ProcessManager::RunAndWait(script_path, input_files,

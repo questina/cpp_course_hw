@@ -45,5 +45,5 @@ TEST(perfomance_test, compare) {
     end = system_clock::now();
     milliseconds parallel_time = duration_cast<milliseconds>(end - start);
 
-    EXPECT_LE(seq_time / parallel_time, TIME_COEF);
+    EXPECT_GT(seq_time, parallel_time);
 }

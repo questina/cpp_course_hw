@@ -1,5 +1,8 @@
 #include <gtest/gtest.h>
 #include "../../include/process_manager.cpp"
+#include "../../include/file_manager.cpp"
+#include "../../include/buffer_writer.cpp"
+#include "../../include/buffer_reader.cpp"
 #include <fstream>
 
 #define ELEMENTS_NUM 10000

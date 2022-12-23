@@ -1,6 +1,9 @@
 #include <iostream>
 #include <fstream>
 #include "include/process_manager.hpp"
+#include <boost/process.hpp>
+
+namespace bp = boost::process;
 
 int main(int argc, char **argv) {
     // ./program seq input.txt output.txt script_path
@@ -12,6 +15,10 @@ int main(int argc, char **argv) {
     std::string input_file = argv[2];
     std::string output_file = argv[3];
     std::string script_path = argv[4];
+
+    bp::child c("g++ -std=c++20 ./run_predicative -o seq.out");
+
+    c.wait();
 
     int buffer_size = -1;
     if (mode == "parallel") {

@@ -1,8 +1,5 @@
 #include <gtest/gtest.h>
 #include "../../include/process_manager.cpp"
-#include "../../include/file_manager.cpp"
-#include "../../include/buffer_writer.cpp"
-#include "../../include/buffer_reader.cpp"
 #include <fstream>
 
 #define ELEMENTS_NUM 10000
@@ -239,3 +236,5 @@ TEST(compare, equal_results) {
     f_par >> res_par;
     EXPECT_EQ(res_seq, res_par);
 }
+
+

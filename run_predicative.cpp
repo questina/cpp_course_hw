@@ -2,6 +2,7 @@
 #include <iostream>
 #include <fstream>
 #include <string>
+#include "include/predicate.cpp"
 
 template<typename T>
 int cnt_true(std::vector<T> v, bool (* pred)(T)) {
@@ -29,10 +30,6 @@ void write_file(std::string filename, int cnt) {
     std::ofstream fileout(filename);
     fileout << cnt;
     fileout.close();
-}
-
-bool predicate(int x) {
-    return x < 5;
 }
 
 int main(int argc, char **argv) {

@@ -76,6 +76,6 @@ test-with-coverage:
 	g++ -std=c++20 ./example/sequential.cpp -o seq.out
 	./${BUILD_FILE}/${TEST_DIR}/${UNIT_TEST}/${UNIT_TEST}
 	lcov -t "tests/unit_test" -o coverage.info -c -d ./${BUILD_FILE}/${TEST_DIR}/${UNIT_TEST}/
-	lcov --remove coverage.info '/usr/include/*' '/usr/local/include/c++/*' '/project/tests/unit_test/unit_test.cpp' 'tests/unit_test/unit_test.cpp' '/project/cmake-build-debug/*' '/include/boost/*' 'gtest/*' '/__w/cpp_course_hw/cpp_course_hw/tests/*' -o coverage.info
+	lcov --remove coverage.info '/usr/include/*' '/usr/local/include/c++/*' '/project/tests/unit_test/unit_test.cpp' 'tests/unit_test/unit_test.cpp' '/project/cmake-build-debug/*' '/include/boost/*' '/__w/cpp_course_hw/cpp_course_hw/cmake-build-debug/_deps/googletest-src/googletest/include/*' '/__w/cpp_course_hw/cpp_course_hw/tests/*' -o coverage.info
 	genhtml -o report coverage.info
 

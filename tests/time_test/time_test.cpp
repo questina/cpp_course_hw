@@ -1,13 +1,11 @@
 #include <gtest/gtest.h>
-#include <fstream>
 #include <iostream>
-#include "../../include/process_manager.hpp"
+#include "../../include/process_manager.cpp"
 #include "boost/chrono.hpp"
 
 using namespace boost::chrono;
 
 #define ELEMENTS_NUM 100000000
-#define TIME_COEF 1.5
 #define BUFFER_SIZE 1000000
 
 void time_processes(std::string input_file, std::string output_file, std::string script_path, int buffer_size) {

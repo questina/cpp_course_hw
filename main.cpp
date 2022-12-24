@@ -1,6 +1,5 @@
 #include <iostream>
-#include <fstream>
-#include "include/process_manager.hpp"
+#include "include/process_manager.cpp"
 #include <boost/process.hpp>
 
 namespace bp = boost::process;

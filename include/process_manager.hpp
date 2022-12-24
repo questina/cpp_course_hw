@@ -10,3 +10,4 @@ public:
                            const std::vector<int>& output_files_ids,
                            const FileManager& file_manager);
 };
+

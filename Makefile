@@ -1,5 +1,7 @@
 BUILD_FILE = cmake-build-debug
 TARGET_PROJECT = cpp_course_hw
+TARGET_SEQUENTIAL = SEQUENTIAL
+TARGET_PARALLEL = PARALLEL
 TIME_TEST = time_test
 UNIT_TEST = unit_test
 TEST_DIR = tests
@@ -14,21 +16,25 @@ build: build_main clean
 
 tests: time_tests test-with-coverage clean
 
+check: check-stat-analysis check-linters check-sanitizer clean check-valgrind clean
+
 clean:
 	rm -rf ${BUILD_FILE}
 	rm -f *.out
 	rm -f coverage.info
 	rm -rf report
-	rm -f input.txt
+	rm -f ${INPUT_FILE}
+	rm -f ${OUTPUT_FILE}
 	rm -rf boost_1_80_0
 	rm -f boost_1_80_0.tar.bz2
 
 build_main:
 	cmake -DCMAKE_BUILD_TYPE=Debug -S ./ -B ./${BUILD_FILE}
-	cmake --build ./${BUILD_FILE} --target ${TARGET_PROJECT}
+	cmake --build ./${BUILD_FILE} --target ${TARGET_SEQUENTIAL}
 	touch ${OUTPUT_FILE}
-	# g++ -std=c++20 ./example/sequential.cpp -o seq.out
-	./${BUILD_FILE}/${TARGET_PROJECT} "parallel" ${INPUT_FILE} ${OUTPUT_FILE} "seq.out" 10000000
+	./${BUILD_FILE}/${TARGET_SEQUENTIAL}
+	cmake --build ./${BUILD_FILE} --target ${TARGET_PARALLEL}
+	./${BUILD_FILE}/${TARGET_PARALLEL}
 
 time_tests:
 	cmake -DCMAKE_BUILD_TYPE=Debug -S ./ -B ./${BUILD_FILE}
@@ -42,23 +48,23 @@ unit_tests:
 	g++ -std=c++20 ./run_predicative.cpp -o seq.out
 	./${BUILD_FILE}/${TEST_DIR}/${UNIT_TEST}/${UNIT_TEST}
 
-check: check-stat-analysis check-linters check-sanitizer clean check-valgrind clean
-
 check-sanitizer:
 	echo "Run sanitizer"
 	cmake -DCMAKE_BUILD_TYPE=Debug SANITIZER_BUILD=ON -S ./ -B ./${BUILD_FILE}
-	cmake --build ./${BUILD_FILE} --target ${TARGET_PROJECT}
+	cmake --build ./${BUILD_FILE} --target ${TARGET_SEQUENTIAL}
 	touch ${OUTPUT_FILE}
-	# g++ -std=c++20 ./example/sequential.cpp -o seq.out
-	./${BUILD_FILE}/${TARGET_PROJECT} "parallel" ${INPUT_FILE} ${OUTPUT_FILE} "seq.out" 10000000
+	./${BUILD_FILE}/${TARGET_SEQUENTIAL}
+	cmake --build ./${BUILD_FILE} --target ${TARGET_PARALLEL}
+	./${BUILD_FILE}/${TARGET_PARALLEL}
 
 check-valgrind:
 	echo "Run valgrind"
 	cmake -DCMAKE_BUILD_TYPE=Debug -S ./ -B ./${BUILD_FILE}
-	cmake --build ./${BUILD_FILE} --target ${TARGET_PROJECT}
+	cmake --build ./${BUILD_FILE} --target ${TARGET_PARALLEL}
 	touch ${OUTPUT_FILE}
-	# g++ -std=c++20 ./example/sequential.cpp -o seq.out
-	valgrind --tool=memcheck --leak-check=yes --exit-on-first-error=yes --error-exitcode=1 ./${BUILD_FILE}/${TARGET_PROJECT} "parallel" ${INPUT_FILE} ${OUTPUT_FILE} "seq.out" 10000000
+	valgrind --tool=memcheck --leak-check=yes --exit-on-first-error=yes --error-exitcode=1 ./${BUILD_FILE}/${TARGET_PARALLEL}
+	cmake --build ./${BUILD_FILE} --target ${TARGET_SEQUENTIAL}
+	valgrind --tool=memcheck --leak-check=yes --exit-on-first-error=yes --error-exitcode=1 ./${BUILD_FILE}/${TARGET_SEQUENTIAL}
 
 check-stat-analysis:
 	echo "Run static analysis cppcheck and cpplint"

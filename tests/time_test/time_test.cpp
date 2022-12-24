@@ -1,6 +1,6 @@
 #include <gtest/gtest.h>
 #include <iostream>
-#include "../../include/process_manager.cpp"
+#include "../../include/process_manager.hpp"
 #include "boost/chrono.hpp"
 
 using namespace boost::chrono;
@@ -13,7 +13,7 @@ void time_processes(std::string input_file, std::string output_file, std::string
     auto file = std::ifstream{input_file};
     auto input_files = file_manager.divide_file_in_blocks(input_file, buffer_size);
     auto output_files = file_manager.create_tmp_files(input_files.size());
-    ProcessManager::RunAndWait(script_path, input_files,
+    ProcessManager::RunProcesses(script_path, input_files,
                                output_files, file_manager);
     file_manager.merge_tmp_files(output_files, output_file);
     file_manager.remove_tmp_files(input_files);

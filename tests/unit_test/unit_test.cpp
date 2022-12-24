@@ -1,19 +1,13 @@
 #include <gtest/gtest.h>
-#include "../../include/process_manager.cpp"
+#include "../../include/process_manager_parallel.cpp"
 #include <fstream>
 
 #define ELEMENTS_NUM 10000
 #define BUFFER_SIZE  1000
 
 void process(std::string input_file, std::string output_file, std::string script_path, int buffer_size) {
-    FileManager file_manager;
-    auto file = std::ifstream{input_file};
-    auto input_files = file_manager.divide_file_in_blocks(input_file, buffer_size);
-    auto output_files = file_manager.create_tmp_files(input_files.size());
-    ProcessManager::RunAndWait(script_path, input_files,
-                               output_files, file_manager);
-    file_manager.merge_tmp_files(output_files, output_file);
-    file_manager.remove_tmp_files(input_files);
+    ProcessManager pm(input_file, output_file, buffer_size);
+    pm.DivideAndRun();
 }
 
 void generate_data(std::string filename) {
@@ -65,7 +59,7 @@ TEST(unit_test_seq, test_process) {
     auto file = std::ifstream{input_file};
     auto input_files = file_manager.divide_file_in_blocks(input_file, buffer_size);
     auto output_files = file_manager.create_tmp_files(input_files.size());
-    ProcessManager::RunAndWait(script_path, input_files,
+    ProcessManager::RunProcesses(script_path, input_files,
                                output_files, file_manager);
     std::string output_file = file_manager.get_filename(output_files[0]);
     std::ifstream gen_file(output_file);
@@ -87,7 +81,7 @@ TEST(unit_test_seq, test_output) {
     auto input_files = file_manager.divide_file_in_blocks(input_file, buffer_size);
     auto output_files = file_manager.create_tmp_files(input_files.size());
     std::string out_file = file_manager.get_filename(output_files[0]);
-    ProcessManager::RunAndWait(script_path, input_files,
+    ProcessManager::RunProcesses(script_path, input_files,
                                output_files, file_manager);
     file_manager.merge_tmp_files(output_files, output_file);
     std::ifstream real_file(output_file);
@@ -113,7 +107,7 @@ TEST(unit_test_seq, test_deleted) {
     auto input_files = file_manager.divide_file_in_blocks(input_file, buffer_size);
     auto output_files = file_manager.create_tmp_files(input_files.size());
     std::string saved_file = file_manager.get_filename(input_files[0]);
-    ProcessManager::RunAndWait(script_path, input_files,
+    ProcessManager::RunProcesses(script_path, input_files,
                                output_files, file_manager);
     file_manager.merge_tmp_files(output_files, output_file);
     file_manager.remove_tmp_files(input_files);
@@ -162,7 +156,7 @@ TEST(unit_test_parallel, test_process) {
     auto file = std::ifstream{input_file};
     auto input_files = file_manager.divide_file_in_blocks(input_file, buffer_size);
     auto output_files = file_manager.create_tmp_files(input_files.size());
-    ProcessManager::RunAndWait(script_path, input_files,
+    ProcessManager::RunProcesses(script_path, input_files,
                                output_files, file_manager);
     std::string gen_line;
     for (auto id: input_files) {
@@ -184,7 +178,7 @@ TEST(unit_test_parallel, test_output) {
     auto file = std::ifstream{input_file};
     auto input_files = file_manager.divide_file_in_blocks(input_file, buffer_size);
     auto output_files = file_manager.create_tmp_files(input_files.size());
-    ProcessManager::RunAndWait(script_path, input_files,
+    ProcessManager::RunProcesses(script_path, input_files,
                                output_files, file_manager);
     file_manager.merge_tmp_files(output_files, output_file);
     std::ifstream real_file(output_file);
@@ -209,7 +203,7 @@ TEST(unit_test_parallel, test_deleted) {
     for (unsigned int i = 0; i < output_files.size(); i++) {
         saved_files.push_back(file_manager.get_filename(output_files[i]));
     }
-    ProcessManager::RunAndWait(script_path, input_files,
+    ProcessManager::RunProcesses(script_path, input_files,
                                output_files, file_manager);
     file_manager.merge_tmp_files(output_files, output_file);
     file_manager.remove_tmp_files(input_files);

@@ -33,12 +33,16 @@ add_subdirectory(include)
 message("LIB_INCLUDE_DIRS = ${LIB_INCLUDE_DIRS}")
 message("LIB_LIBRARIES = ${LIB_LIBRARIES}")
 
-add_executable(${PROJECT_NAME} main.cpp)
+add_executable(SEQUENTIAL sequential.cpp)
+add_executable(PARALLEL parallel.cpp)
 
+set_target_properties(SEQUENTIAL PROPERTIES LINKER_LANGUAGE CXX)
+target_include_directories(SEQUENTIAL PUBLIC ${LIB_INCLUDE_DIRS})
+target_link_libraries(SEQUENTIAL PRIVATE ${LIB_LIBRARIES} ${Boost_LIBRARIES} -lpthread -lm)
 
-set_target_properties(cpp_course_hw PROPERTIES LINKER_LANGUAGE CXX)
-target_include_directories(${PROJECT_NAME} PUBLIC ${LIB_INCLUDE_DIRS})
-target_link_libraries(${PROJECT_NAME} PRIVATE ${LIB_LIBRARIES} ${Boost_LIBRARIES} -lpthread -lm)
+set_target_properties(PARALLEL PROPERTIES LINKER_LANGUAGE CXX)
+target_include_directories(PARALLEL PUBLIC ${LIB_INCLUDE_DIRS})
+target_link_libraries(PARALLEL PRIVATE ${LIB_LIBRARIES} ${Boost_LIBRARIES} -lpthread -lm)
 
 add_subdirectory(tests)
 add_subdirectory(tests/time_test)

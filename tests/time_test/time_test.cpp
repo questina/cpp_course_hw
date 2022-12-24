@@ -6,7 +6,7 @@
 using namespace boost::chrono;
 
 #define ELEMENTS_NUM 100000000
-#define BUFFER_SIZE 1000000
+#define BUFFER_SIZE 10000000
 
 void time_processes(std::string input_file, std::string output_file, std::string script_path, int buffer_size) {
     FileManager file_manager;
